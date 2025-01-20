@@ -12,6 +12,10 @@ class TALOSRECORDS_API UObjectiveGate : public UActorComponent
 
 public:	
 	UObjectiveGate();
+	void Open(float DeltaTime) const;
+	void Close(float DeltaTime) const;
+	void Move(float DeltaTime, const FVector& TargetLocation) const;
+	void ResolveObjectivesCleared(float DeltaTime) const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -19,5 +23,17 @@ protected:
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+private:
+
+	FVector BeginLocation = FVector::ZeroVector;
+	float MoveSpeed = 0.0f;
+	
+	UPROPERTY(EditAnywhere)
+	FVector OpenOffset = FVector(0, 0, 0);
+
+	UPROPERTY(EditAnywhere)
+	float OpenDuration = 1.0f;
+
+	UPROPERTY(EditAnywhere)
+	bool objectivesCleared = false;
 };
