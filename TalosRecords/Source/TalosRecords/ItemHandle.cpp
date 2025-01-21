@@ -23,6 +23,12 @@ void UItemHandle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 		FHitResult HitResult;
 		HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
 
+		if (HasHit)
+		{
+			// TODO: Tag with custom component instead of string tags.
+			HasHit = HitResult.GetActor()->Tags.Contains(FName("CanHoldItem"));
+		}
+
 		CurrentItem->SetPlacementVisualizerVisible(HasHit);
 		CurrentItem->SetPlacementVisualizerLocation(HitResult.ImpactPoint);
 		CurrentItem->SetPlacementVisualizerRotation(HitResult.ImpactNormal.Rotation());
