@@ -1,6 +1,7 @@
 #include "Interaction.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 UInteraction::UInteraction()
 {
@@ -24,11 +25,6 @@ void UInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	{
 		DrawDebug(InteractionStartPoint, InteractionEndPoint);
 	}
-}
-
-void UInteraction::DrawDebug(const FVector& StartPoint, const FVector& EndPoint) const
-{
-	DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Red, false);
 }
 
 void UInteraction::ScanForInteractableObject(const FVector& StartPoint, const FVector& EndPoint)
@@ -57,5 +53,12 @@ void UInteraction::OnInteractActionPressed() const
 	}
 
 	UE_LOG(LogTemp, Display, TEXT("Interactable actor not found."));
+}
+
+void UInteraction::DrawDebug(const FVector& StartPoint, const FVector& EndPoint) const
+{
+	DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Red);
+	DrawDebugSphere( GetWorld(), StartPoint, InteractionRadius, 10, FColor::Red);
+	DrawDebugSphere( GetWorld(), EndPoint, InteractionRadius, 10, FColor::Red);
 }
 
