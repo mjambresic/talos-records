@@ -15,13 +15,25 @@ void UItemHandle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	HandleItemTransform();
+
+	if (HandlesItem())
+	{
+		FHitResult HitResult;
+		FVector PlacingStartPoint = Camera->GetComponentLocation();
+		FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
+		bool hasHit = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
+		DrawDebugLine(GetWorld(), PlacingStartPoint, PlacingEndPoint, FColor::Orange);
+
+		CurrentItem->SetPlacementVisualizerVisible(hasHit);
+		CurrentItem->SetPlacementVisualizerLocation(HitResult.ImpactPoint);
+	}
 }
 
 void UItemHandle::HandleItemTransform() const
 {
-	if (CurrentItemActor != nullptr)
+	if (CurrentItem != nullptr)
 	{
-		CurrentItemActor->SetActorLocation(GetComponentLocation());
+		CurrentItem->GetOwner()->SetActorLocation(GetComponentLocation());
 		HandleItemRotation();
 	}
 }
@@ -35,17 +47,17 @@ void UItemHandle::HandleItemRotation() const
 		Camera->GetComponentRotation().Roll + ItemRotationOffset.Y
 	);
 		
-	CurrentItemActor->SetActorRotation(ItemRotation);
+	CurrentItem->GetOwner()->SetActorRotation(ItemRotation);
 }
 
 bool UItemHandle::HandlesItem() const
 {
-	return CurrentItemActor != nullptr;
+	return CurrentItem != nullptr;
 }
 
-void UItemHandle::HandleItem(AActor* ActorToHandle)
+void UItemHandle::HandleItem(UItem* Item)
 {
-	CurrentItemActor = ActorToHandle;
+	CurrentItem = Item;
 	SetItemPhysicsProperties(ECollisionEnabled::NoCollision);
 }
 
@@ -54,12 +66,13 @@ void UItemHandle::ReleaseItem()
 	if (HandlesItem())
 	{
 		SetItemPhysicsProperties(ECollisionEnabled::QueryAndPhysics);
-		CurrentItemActor = nullptr;
+		CurrentItem->SetPlacementVisualizerVisible(false);
+		CurrentItem = nullptr;
 	}
 }
 
 void UItemHandle::SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const
 {
-	UPrimitiveComponent* InteractableActorPrimitiveComponent = CurrentItemActor->FindComponentByClass<UPrimitiveComponent>();
+	UPrimitiveComponent* InteractableActorPrimitiveComponent = CurrentItem->GetOwner()->FindComponentByClass<UPrimitiveComponent>();
 	InteractableActorPrimitiveComponent->SetCollisionEnabled(CollisionType);
 }

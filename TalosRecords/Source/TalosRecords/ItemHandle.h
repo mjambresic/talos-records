@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Item.h"
 #include "ItemHandle.generated.h"
 
 
@@ -19,7 +20,7 @@ protected:
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void HandleItem(AActor* ActorToHandle);
+	void HandleItem(UItem* Item);
 	void HandleItemTransform() const;
 	void HandleItemRotation() const;
 	bool HandlesItem() const;
@@ -29,9 +30,12 @@ public:
 	void ReleaseItem();
 
 private:
-	AActor* CurrentItemActor;
+	UItem* CurrentItem;
 	UCameraComponent* Camera;
 	
 	UPROPERTY(EditAnywhere)
 	FVector ItemRotationOffset = FVector(0, 0, 0);
+
+	UPROPERTY(EditAnywhere)
+	float PlacingDistance = 400;
 };

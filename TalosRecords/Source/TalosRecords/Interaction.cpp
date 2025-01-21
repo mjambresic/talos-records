@@ -1,6 +1,7 @@
 #include "Interaction.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "Item.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 UInteraction::UInteraction()
@@ -52,10 +53,15 @@ void UInteraction::OnPrimaryActionPressed() const
 		ItemHandle->ReleaseItem();
 		return;
 	}
-	
+
 	if (InteractableActor != nullptr)
 	{
-		ItemHandle->HandleItem(InteractableActor);
+		UItem* Item = InteractableActor->FindComponentByClass<UItem>();
+		if (Item != nullptr)
+		{
+			ItemHandle->HandleItem(Item);
+		}
+		
 		return;
 	}
 
