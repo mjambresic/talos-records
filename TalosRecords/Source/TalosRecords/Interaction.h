@@ -1,11 +1,13 @@
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "ItemHandle.h"
 #include "Interaction.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+
 class TALOSRECORDS_API UInteraction : public USceneComponent
 {
 	GENERATED_BODY()
@@ -20,6 +22,7 @@ public:
 private:
 	void DrawDebug(const FVector& StartPoint, const FVector& EndPoint) const;
 	void ScanForInteractableObject(const FVector& StartPoint, const FVector& EndPoint);
+	void ResolveItemHold() const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -27,13 +30,17 @@ protected:
 private:
 
 	AActor* InteractableActor;
+	UItemHandle* ItemHandle;
 	
 	UPROPERTY(EditAnywhere)
-	float InteractionDistance = 400;
+	float InteractionDistance = 200;
 
 	UPROPERTY(EditAnywhere)
-	float InteractionRadius = 100;
+	float InteractionRadius = 50;
 
 	UPROPERTY(EditAnywhere)
 	float DebugEnabled = true;
+
+	UPROPERTY(EditAnywhere)
+	float ItemHoldDistance = 150;
 };
