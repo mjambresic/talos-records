@@ -37,6 +37,11 @@ void UItemHandle::HandleItemTransform() const
 	}
 }
 
+bool UItemHandle::HandlesItem() const
+{
+	return CurrentItemActor != nullptr;
+}
+
 void UItemHandle::HandleItem(AActor* ActorToHandle)
 {
 	UPrimitiveComponent* InteractableActorPrimitiveComponent = ActorToHandle->FindComponentByClass<UPrimitiveComponent>();
@@ -46,7 +51,12 @@ void UItemHandle::HandleItem(AActor* ActorToHandle)
 
 void UItemHandle::ReleaseItem()
 {
-	//CurrentItemActor = nullptr;
+	if (HandlesItem())
+	{
+		UPrimitiveComponent* InteractableActorPrimitiveComponent = CurrentItemActor->FindComponentByClass<UPrimitiveComponent>();
+		InteractableActorPrimitiveComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		CurrentItemActor = nullptr;
+	}
 }
 
 

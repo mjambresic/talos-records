@@ -20,6 +20,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void HandleItem(AActor* ActorToHandle);
 	void HandleItemTransform() const;
+	bool HandlesItem() const;
+
+	UFUNCTION(BlueprintCallable)
 	void ReleaseItem();
 
 private:

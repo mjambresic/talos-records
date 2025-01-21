@@ -17,12 +17,11 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 	UFUNCTION(BlueprintCallable)
-	void OnInteractActionPressed() const;
+	void OnPrimaryActionPressed() const;
 	
 private:
 	void DrawDebug(const FVector& StartPoint, const FVector& EndPoint) const;
 	void ScanForInteractableObject(const FVector& StartPoint, const FVector& EndPoint);
-	void ResolveItemHold() const;
 
 protected:
 	virtual void BeginPlay() override;

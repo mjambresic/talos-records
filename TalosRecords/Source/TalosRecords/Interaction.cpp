@@ -21,7 +21,6 @@ void UInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	FVector InteractionStartPoint = GetComponentLocation();
 	FVector InteractionEndPoint = InteractionStartPoint + GetForwardVector() * InteractionDistance;
 	ScanForInteractableObject(InteractionStartPoint, InteractionEndPoint);
-	ResolveItemHold();
 
 	if (DebugEnabled)
 	{
@@ -46,16 +45,16 @@ void UInteraction::ScanForInteractableObject(const FVector& StartPoint, const FV
 	InteractableActor = HitResult.GetActor();
 }
 
-void UInteraction::ResolveItemHold() const
+void UInteraction::OnPrimaryActionPressed() const
 {
-	FVector TargetLocation = GetComponentLocation() + GetForwardVector() * ItemHoldDistance;
-}
-
-void UInteraction::OnInteractActionPressed() const
-{
+	if (ItemHandle->HandlesItem())
+	{
+		ItemHandle->ReleaseItem();
+		return;
+	}
+	
 	if (InteractableActor != nullptr)
 	{
-		UE_LOG(LogTemp, Display, TEXT("Actor Interaction: %s"), *InteractableActor->GetActorNameOrLabel());
 		ItemHandle->HandleItem(InteractableActor);
 		return;
 	}
