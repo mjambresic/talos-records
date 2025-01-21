@@ -18,24 +18,44 @@ void UInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 
 	FVector InteractionStartPoint = GetComponentLocation();
 	FVector InteractionEndPoint = InteractionStartPoint + GetForwardVector() * InteractionDistance;
-	DrawDebugLine(GetWorld(), InteractionStartPoint, InteractionEndPoint, FColor::Red, false);
+	ScanForInteractableObject(InteractionStartPoint, InteractionEndPoint);
 
+	if (DebugEnabled)
+	{
+		DrawDebug(InteractionStartPoint, InteractionEndPoint);
+	}
+}
+
+void UInteraction::DrawDebug(const FVector& StartPoint, const FVector& EndPoint) const
+{
+	DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Red, false);
+}
+
+void UInteraction::ScanForInteractableObject(const FVector& StartPoint, const FVector& EndPoint)
+{
 	FCollisionShape Sphere = FCollisionShape::MakeSphere(InteractionRadius);
 	FHitResult HitResult;
-	bool hasHit = GetWorld()->SweepSingleByChannel
+	GetWorld()->SweepSingleByChannel
 	(
 		HitResult,
-		InteractionStartPoint,
-		InteractionEndPoint,
+		StartPoint,
+		EndPoint,
 		FQuat::Identity,
 		ECC_GameTraceChannel1,
 		Sphere
 	);
 
-	if (hasHit)
+	InteractableActor = HitResult.GetActor();
+}
+
+void UInteraction::OnInteractActionPressed() const
+{
+	if (InteractableActor != nullptr)
 	{
-		AActor* HitActor = HitResult.GetActor();
-		UE_LOG(LogTemp, Display, TEXT("Actor Hit: %s"), *HitActor->GetActorNameOrLabel());
+		UE_LOG(LogTemp, Display, TEXT("Actor Interaction: %s"), *InteractableActor->GetActorNameOrLabel());
+		return;
 	}
+
+	UE_LOG(LogTemp, Display, TEXT("Interactable actor not found."));
 }
 
