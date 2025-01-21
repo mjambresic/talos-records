@@ -19,6 +19,8 @@ protected:
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void SetPlacementVisualizerLocation(FVector Location) const;
+	void SetPlacementVisualizerRotation(const FRotator& Rotation) const;
+	void SetItemTransformToVisualizerTransform() const;
 
 	UFUNCTION(BlueprintCallable)
 	void SetPlacementVisualizerVisible(bool Visible) const;
@@ -28,4 +30,7 @@ public:
 
 private:
 	USceneComponent* PlacementVisualizer;
+
+	UPROPERTY(EditAnywhere)
+	float BaseOffset = 0.0f;
 };

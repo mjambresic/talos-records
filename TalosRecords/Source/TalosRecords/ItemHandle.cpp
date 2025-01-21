@@ -18,14 +18,14 @@ void UItemHandle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 
 	if (HandlesItem())
 	{
-		FHitResult HitResult;
 		FVector PlacingStartPoint = Camera->GetComponentLocation();
 		FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
-		bool hasHit = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
-		DrawDebugLine(GetWorld(), PlacingStartPoint, PlacingEndPoint, FColor::Orange);
+		FHitResult HitResult;
+		HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
 
-		CurrentItem->SetPlacementVisualizerVisible(hasHit);
+		CurrentItem->SetPlacementVisualizerVisible(HasHit);
 		CurrentItem->SetPlacementVisualizerLocation(HitResult.ImpactPoint);
+		CurrentItem->SetPlacementVisualizerRotation(HitResult.ImpactNormal.Rotation());
 	}
 }
 
@@ -63,10 +63,11 @@ void UItemHandle::HandleItem(UItem* Item)
 
 void UItemHandle::ReleaseItem()
 {
-	if (HandlesItem())
+	if (HandlesItem() && HasHit)
 	{
 		SetItemPhysicsProperties(ECollisionEnabled::QueryAndPhysics);
 		CurrentItem->SetPlacementVisualizerVisible(false);
+		CurrentItem->SetItemTransformToVisualizerTransform();
 		CurrentItem = nullptr;
 	}
 }

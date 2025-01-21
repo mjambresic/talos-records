@@ -17,7 +17,22 @@ void UItem::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentT
 
 void UItem::SetPlacementVisualizerLocation(FVector Location) const
 {
+	Location.Z += BaseOffset;
 	PlacementVisualizer->SetWorldLocation(Location);
+}
+
+void UItem::SetPlacementVisualizerRotation(const FRotator& Rotation) const
+{
+	FRotator VisualizerRotation = PlacementVisualizer->GetComponentRotation();
+	VisualizerRotation.Roll = Rotation.Roll;
+	VisualizerRotation.Pitch = Rotation.Pitch;
+	PlacementVisualizer->SetWorldRotation(VisualizerRotation);
+}
+
+void UItem::SetItemTransformToVisualizerTransform() const
+{
+	GetOwner()->SetActorLocation(PlacementVisualizer->GetComponentLocation());
+	GetOwner()->SetActorRotation(PlacementVisualizer->GetComponentRotation());
 }
 
 void UItem::SetPlacementVisualizerVisible(bool Visible) const

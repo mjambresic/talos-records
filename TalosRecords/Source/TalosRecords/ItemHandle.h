@@ -32,6 +32,7 @@ public:
 private:
 	UItem* CurrentItem;
 	UCameraComponent* Camera;
+	bool HasHit;
 	
 	UPROPERTY(EditAnywhere)
 	FVector ItemRotationOffset = FVector(0, 0, 0);
