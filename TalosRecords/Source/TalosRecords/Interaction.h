@@ -22,13 +22,14 @@ public:
 private:
 	void DrawDebug(const FVector& StartPoint, const FVector& EndPoint) const;
 	void ScanForInteractableObject(const FVector& StartPoint, const FVector& EndPoint);
+	void ResolveInteractableObjectFromHitResult(const FHitResult& HitResult);
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
 
-	AActor* InteractableActor;
+	IInteractable* InteractableObject;
 	UItemHandle* ItemHandle;
 	
 	UPROPERTY(EditAnywhere)

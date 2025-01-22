@@ -1,8 +1,8 @@
 #include "Interaction.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
-#include "Item.h"
-#include "Kismet/KismetSystemLibrary.h"
+
+constexpr int32 ALLOWED_INTERACTABLE_COMPONENT_COUNT = 1;
 
 UInteraction::UInteraction()
 {
@@ -43,7 +43,30 @@ void UInteraction::ScanForInteractableObject(const FVector& StartPoint, const FV
 		Sphere
 	);
 
-	InteractableActor = HitResult.GetActor();
+	ResolveInteractableObjectFromHitResult(HitResult);
+}
+
+void UInteraction::ResolveInteractableObjectFromHitResult(const FHitResult& HitResult)
+{
+	InteractableObject = nullptr;
+
+	AActor* HitActor = HitResult.GetActor();
+	if (HitActor != nullptr)
+	{
+		TArray<UActorComponent*> Components = HitActor->GetComponentsByInterface(UInteractable::StaticClass());
+
+		if (Components.Num() > ALLOWED_INTERACTABLE_COMPONENT_COUNT)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Component implements more than one UInteractable! Interaction stopped. Make sure your actor implements only one component with IInteractable interface."));
+			return;
+		}
+		
+		for (UActorComponent* Component : Components)
+		{
+			InteractableObject = Cast<IInteractable>(Component);
+			break;
+		}
+	}
 }
 
 void UInteraction::OnPrimaryActionPressed() const
@@ -54,14 +77,9 @@ void UInteraction::OnPrimaryActionPressed() const
 		return;
 	}
 
-	if (InteractableActor != nullptr)
+	if (InteractableObject != nullptr && InteractableObject->Interactable(ItemHandle))
 	{
-		UItem* Item = InteractableActor->FindComponentByClass<UItem>();
-		if (Item != nullptr)
-		{
-			ItemHandle->HandleItem(Item);
-		}
-		
+		InteractableObject->Interact(ItemHandle);
 		return;
 	}
 

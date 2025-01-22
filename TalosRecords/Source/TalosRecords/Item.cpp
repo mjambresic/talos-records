@@ -1,4 +1,5 @@
 #include "Item.h"
+#include "ItemHandle.h"
 
 UItem::UItem()
 {
@@ -33,6 +34,16 @@ void UItem::SetItemTransformToVisualizerTransform() const
 {
 	GetOwner()->SetActorLocation(PlacementVisualizer->GetComponentLocation());
 	GetOwner()->SetActorRotation(PlacementVisualizer->GetComponentRotation());
+}
+
+void UItem::Interact(UItemHandle* ItemHandle)
+{
+	ItemHandle->HandleItem(this);
+}
+
+bool UItem::Interactable(UItemHandle* ItemHandle)
+{
+	return !ItemHandle->HandlesItem();
 }
 
 void UItem::SetPlacementVisualizerVisible(bool Visible) const

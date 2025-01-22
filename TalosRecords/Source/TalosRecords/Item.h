@@ -1,12 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IInteractable.h"
 #include "Components/ActorComponent.h"
 #include "Item.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TALOSRECORDS_API UItem : public UActorComponent
+class TALOSRECORDS_API UItem : public UActorComponent, public IInteractable
 {
 	GENERATED_BODY()
 
@@ -21,6 +22,8 @@ public:
 	void SetPlacementVisualizerLocation(FVector Location) const;
 	void SetPlacementVisualizerRotation(const FRotator& Rotation) const;
 	void SetItemTransformToVisualizerTransform() const;
+	virtual void Interact(UItemHandle* ItemHandle) override;
+	virtual bool Interactable(UItemHandle* ItemHandle) override;
 
 	UFUNCTION(BlueprintCallable)
 	void SetPlacementVisualizerVisible(bool Visible) const;
