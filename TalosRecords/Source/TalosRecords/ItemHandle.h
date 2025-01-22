@@ -27,6 +27,10 @@ public:
 	bool HasItem() const;
 	void SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const;
 	void PlaceItem(ECollisionEnabled::Type CollisionType);
+	void ResolveItemPlacingTrace();
+	bool TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor);
+	bool TryCheckIfItemCanBePlacedOnPad(AActor* Actor);
+	void UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const;
 
 	UFUNCTION(BlueprintCallable)
 	void PlaceItemToEligiblePlace();
@@ -35,7 +39,7 @@ private:
 	UItem* CurrentItem;
 	UItemPad* CurrentItemPad;
 	UCameraComponent* Camera;
-	bool HasHit;
+	bool CanPlaceItem;
 	
 	UPROPERTY(EditAnywhere)
 	FVector ItemRotationOffset = FVector(0, 0, 0);

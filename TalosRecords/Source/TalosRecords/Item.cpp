@@ -24,10 +24,7 @@ void UItem::SetPlacementVisualizerLocation(FVector Location) const
 
 void UItem::SetPlacementVisualizerRotation(const FRotator& Rotation) const
 {
-	FRotator VisualizerRotation = PlacementVisualizer->GetComponentRotation();
-	VisualizerRotation.Roll = Rotation.Roll;
-	VisualizerRotation.Pitch = Rotation.Pitch;
-	PlacementVisualizer->SetWorldRotation(VisualizerRotation);
+	PlacementVisualizer->SetWorldRotation(Rotation);
 }
 
 void UItem::SetItemTransformToVisualizerTransform() const

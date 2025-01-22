@@ -15,43 +15,55 @@ void UItemHandle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	HandleItemTransform();
+	ResolveItemPlacingTrace();
+}
 
+void UItemHandle::ResolveItemPlacingTrace()
+{
 	if (HasItem())
 	{
 		FVector PlacingStartPoint = Camera->GetComponentLocation();
 		FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
 		FHitResult HitResult;
-		HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
+		CanPlaceItem = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
+		AActor* HitActor = HitResult.GetActor();
 
-		if (HasHit)
+		if (TryCheckIfActorIsTaggedToHoldItem(HitActor))
 		{
-			// TODO: Tag with custom component instead of string tags.
-			HasHit = HitResult.GetActor()->Tags.Contains(FName("CanHoldItem"));
-		}
-
-		if (HasHit)
-		{
-			CurrentItemPad = HitResult.GetActor()->FindComponentByClass<UItemPad>();
-			if (CurrentItemPad != nullptr)
+			if (TryCheckIfItemCanBePlacedOnPad(HitActor))
 			{
-				HasHit = CurrentItemPad->CanPlaceItem(); 
-				if (!HasHit)
-				{
-					CurrentItem->SetPlacementVisualizerVisible(false);
-					return;
-				}
-				
-				CurrentItem->SetPlacementVisualizerVisible(true);
-				CurrentItem->SetPlacementVisualizerLocation(CurrentItemPad->GetSocketLocation());
-				CurrentItem->SetPlacementVisualizerRotation(CurrentItemPad->GetSocketRotation());
+				UpdatePlacementVisualizer(true, CurrentItemPad->GetSocketLocation(), CurrentItemPad->GetSocketRotation());
 				return;
 			}
+
+			FRotator ImpactRotation = HitResult.ImpactNormal.Rotation();
+			ImpactRotation.Yaw = CurrentItem->GetOwner()->GetActorRotation().Yaw;
+			UpdatePlacementVisualizer(CanPlaceItem, HitResult.ImpactPoint, ImpactRotation);
+			return;
 		}
 
-		CurrentItem->SetPlacementVisualizerVisible(HasHit);
-		CurrentItem->SetPlacementVisualizerLocation(HitResult.ImpactPoint);
-		CurrentItem->SetPlacementVisualizerRotation(HitResult.ImpactNormal.Rotation());
+		CurrentItem->SetPlacementVisualizerVisible(false);
 	}
+}
+
+bool UItemHandle::TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor)
+{
+	// TODO: Replace tag with custom tag system, component?
+	CanPlaceItem = CanPlaceItem && Actor != nullptr && Actor->Tags.Contains(FName("CanHoldItem"));
+	return CanPlaceItem;
+}
+
+bool UItemHandle::TryCheckIfItemCanBePlacedOnPad(AActor* Actor)
+{
+	CurrentItemPad = Actor->FindComponentByClass<UItemPad>();
+	return CurrentItemPad != nullptr && CurrentItemPad->CanPlaceItem();
+}
+
+void UItemHandle::UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const
+{
+	CurrentItem->SetPlacementVisualizerVisible(Visible);
+	CurrentItem->SetPlacementVisualizerLocation(Location);
+	CurrentItem->SetPlacementVisualizerRotation(Rotation);
 }
 
 void UItemHandle::HandleItemTransform() const
@@ -88,11 +100,11 @@ void UItemHandle::PickUpItem(UItem* Item)
 
 void UItemHandle::PlaceItemToEligiblePlace()
 {
-	if (HasItem() && HasHit)
+	if (HasItem() && CanPlaceItem)
 	{
 		if (CurrentItemPad != nullptr)
 		{
-			if (CurrentItemPad->CanPlaceItem())
+			if (CurrentItemPad->CanPlaceItem()) // Places item on pad.
 			{
 				CurrentItemPad->PlaceItem(CurrentItem);
 				PlaceItem(ECollisionEnabled::PhysicsOnly);
@@ -102,7 +114,7 @@ void UItemHandle::PlaceItemToEligiblePlace()
 			return; // Doesn't place item.
 		}
         
-		PlaceItem(ECollisionEnabled::QueryAndPhysics);
+		PlaceItem(ECollisionEnabled::QueryAndPhysics); // Places item in world.
 	}
 }
 
