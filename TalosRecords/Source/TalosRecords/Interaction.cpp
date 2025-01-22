@@ -32,7 +32,7 @@ void UInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 void UInteraction::ScanForInteractableObject(const FVector& StartPoint, const FVector& EndPoint)
 {
 	// Stops interaction system if we handle item.
-	if (ItemHandle->HandlesItem())
+	if (ItemHandle->HasItem())
 	{
 		return;
 	}
@@ -78,9 +78,9 @@ void UInteraction::ResolveInteractableObjectFromHitResult(const FHitResult& HitR
 
 void UInteraction::OnPrimaryActionPressed() const
 {
-	if (ItemHandle->HandlesItem())
+	if (ItemHandle->HasItem())
 	{
-		ItemHandle->ReleaseItem();
+		ItemHandle->PlaceItemToEligiblePlace();
 		return;
 	}
 

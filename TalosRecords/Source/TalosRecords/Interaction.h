@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Components/SceneComponent.h"
-#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "ItemHandle.h"
 #include "Interaction.generated.h"
 

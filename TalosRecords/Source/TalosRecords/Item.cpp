@@ -38,12 +38,12 @@ void UItem::SetItemTransformToVisualizerTransform() const
 
 void UItem::Interact(UItemHandle* ItemHandle)
 {
-	ItemHandle->HandleItem(this);
+	ItemHandle->PickUpItem(this);
 }
 
 bool UItem::Interactable(UItemHandle* ItemHandle)
 {
-	return !ItemHandle->HandlesItem();
+	return !ItemHandle->HasItem();
 }
 
 void UItem::SetPlacementVisualizerVisible(bool Visible) const

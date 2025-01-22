@@ -16,7 +16,7 @@ void UItemHandle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	HandleItemTransform();
 
-	if (HandlesItem())
+	if (HasItem())
 	{
 		FVector PlacingStartPoint = Camera->GetComponentLocation();
 		FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
@@ -27,6 +27,25 @@ void UItemHandle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 		{
 			// TODO: Tag with custom component instead of string tags.
 			HasHit = HitResult.GetActor()->Tags.Contains(FName("CanHoldItem"));
+		}
+
+		if (HasHit)
+		{
+			CurrentItemPad = HitResult.GetActor()->FindComponentByClass<UItemPad>();
+			if (CurrentItemPad != nullptr)
+			{
+				HasHit = CurrentItemPad->CanPlaceItem(); 
+				if (!HasHit)
+				{
+					CurrentItem->SetPlacementVisualizerVisible(false);
+					return;
+				}
+				
+				CurrentItem->SetPlacementVisualizerVisible(true);
+				CurrentItem->SetPlacementVisualizerLocation(CurrentItemPad->GetSocketLocation());
+				CurrentItem->SetPlacementVisualizerRotation(CurrentItemPad->GetSocketRotation());
+				return;
+			}
 		}
 
 		CurrentItem->SetPlacementVisualizerVisible(HasHit);
@@ -56,27 +75,45 @@ void UItemHandle::HandleItemRotation() const
 	CurrentItem->GetOwner()->SetActorRotation(ItemRotation);
 }
 
-bool UItemHandle::HandlesItem() const
+bool UItemHandle::HasItem() const
 {
 	return CurrentItem != nullptr;
 }
 
-void UItemHandle::HandleItem(UItem* Item)
+void UItemHandle::PickUpItem(UItem* Item)
 {
 	CurrentItem = Item;
 	SetItemPhysicsProperties(ECollisionEnabled::NoCollision);
 }
 
-void UItemHandle::ReleaseItem()
+void UItemHandle::PlaceItemToEligiblePlace()
 {
-	if (HandlesItem() && HasHit)
+	if (HasItem() && HasHit)
 	{
-		SetItemPhysicsProperties(ECollisionEnabled::QueryAndPhysics);
-		CurrentItem->SetPlacementVisualizerVisible(false);
-		CurrentItem->SetItemTransformToVisualizerTransform();
-		CurrentItem = nullptr;
+		if (CurrentItemPad != nullptr)
+		{
+			if (CurrentItemPad->CanPlaceItem())
+			{
+				CurrentItemPad->PlaceItem(CurrentItem);
+				PlaceItem(ECollisionEnabled::PhysicsOnly);
+				return;
+			}
+            
+			return; // Doesn't place item.
+		}
+        
+		PlaceItem(ECollisionEnabled::QueryAndPhysics);
 	}
 }
+
+void UItemHandle::PlaceItem(ECollisionEnabled::Type CollisionType)
+{
+	CurrentItem->SetPlacementVisualizerVisible(false);
+	CurrentItem->SetItemTransformToVisualizerTransform();
+	SetItemPhysicsProperties(CollisionType);
+	CurrentItem = nullptr;
+}
+
 
 void UItemHandle::SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const
 {
