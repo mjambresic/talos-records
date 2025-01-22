@@ -29,7 +29,7 @@ public:
 	void PlaceItem(ECollisionEnabled::Type CollisionType);
 	void ResolveItemPlacingTrace();
 	bool TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor);
-	bool TryCheckIfItemCanBePlacedOnPad(AActor* Actor);
+	bool TryResolveVisualizationOnPad(const AActor* Actor);
 	void UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const;
 
 	UFUNCTION(BlueprintCallable)
@@ -39,7 +39,7 @@ private:
 	UItem* CurrentItem;
 	UItemPad* CurrentItemPad;
 	UCameraComponent* Camera;
-	bool CanPlaceItem;
+	bool HitActorCanHoldItem;
 	
 	UPROPERTY(EditAnywhere)
 	FVector ItemRotationOffset = FVector(0, 0, 0);

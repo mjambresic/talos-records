@@ -25,20 +25,20 @@ void UItemHandle::ResolveItemPlacingTrace()
 		FVector PlacingStartPoint = Camera->GetComponentLocation();
 		FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
 		FHitResult HitResult;
-		CanPlaceItem = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
+		HitActorCanHoldItem = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
 		AActor* HitActor = HitResult.GetActor();
 
 		if (TryCheckIfActorIsTaggedToHoldItem(HitActor))
 		{
-			if (TryCheckIfItemCanBePlacedOnPad(HitActor))
+			if (TryResolveVisualizationOnPad(HitActor))
 			{
-				UpdatePlacementVisualizer(true, CurrentItemPad->GetSocketLocation(), CurrentItemPad->GetSocketRotation());
 				return;
 			}
-
+			
+			// Places visualization on non pad surface that can hold items.
 			FRotator ImpactRotation = HitResult.ImpactNormal.Rotation();
 			ImpactRotation.Yaw = CurrentItem->GetOwner()->GetActorRotation().Yaw;
-			UpdatePlacementVisualizer(CanPlaceItem, HitResult.ImpactPoint, ImpactRotation);
+			UpdatePlacementVisualizer(HitActorCanHoldItem, HitResult.ImpactPoint, ImpactRotation);
 			return;
 		}
 
@@ -49,14 +49,26 @@ void UItemHandle::ResolveItemPlacingTrace()
 bool UItemHandle::TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor)
 {
 	// TODO: Replace tag with custom tag system, component?
-	CanPlaceItem = CanPlaceItem && Actor != nullptr && Actor->Tags.Contains(FName("CanHoldItem"));
-	return CanPlaceItem;
+	HitActorCanHoldItem = HitActorCanHoldItem && Actor != nullptr && Actor->Tags.Contains(FName("CanHoldItem"));
+	return HitActorCanHoldItem;
 }
 
-bool UItemHandle::TryCheckIfItemCanBePlacedOnPad(AActor* Actor)
+bool UItemHandle::TryResolveVisualizationOnPad(const AActor* Actor)
 {
 	CurrentItemPad = Actor->FindComponentByClass<UItemPad>();
-	return CurrentItemPad != nullptr && CurrentItemPad->CanPlaceItem();
+	if (CurrentItemPad != nullptr)
+	{
+		if (CurrentItemPad->CanPlaceItem())
+		{
+			UpdatePlacementVisualizer(true, CurrentItemPad->GetSocketLocation(), CurrentItemPad->GetSocketRotation());
+			return true;
+		}
+
+		CurrentItem->SetPlacementVisualizerVisible(false);
+		return true;
+	}
+
+	return false;
 }
 
 void UItemHandle::UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const
@@ -100,7 +112,7 @@ void UItemHandle::PickUpItem(UItem* Item)
 
 void UItemHandle::PlaceItemToEligiblePlace()
 {
-	if (HasItem() && CanPlaceItem)
+	if (HasItem() && HitActorCanHoldItem)
 	{
 		if (CurrentItemPad != nullptr)
 		{
