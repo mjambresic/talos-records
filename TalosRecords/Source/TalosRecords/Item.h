@@ -23,6 +23,8 @@ public:
 	void SetPlacementVisualizerRotation(const FRotator& Rotation) const;
 	void SetItemTransformToVisualizerTransform() const;
 	virtual void Interact(UItemHandle* ItemHandle) override;
+	void SetCollisionEnabled(ECollisionEnabled::Type CollisionType) const;
+	void SetInteractionCollisionResponse(ECollisionResponse Response) const;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 
 	UFUNCTION(BlueprintCallable)
@@ -31,8 +33,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetPlacementVisualizer(USceneComponent* Visualizer);
 
+	UFUNCTION(BlueprintCallable)
+	void SetCollider(UShapeComponent* ShapeCollider);
+
 private:
 	USceneComponent* PlacementVisualizer;
+	UShapeComponent* Collider;
 
 	UPROPERTY(EditAnywhere)
 	float BaseOffset = 0.0f;

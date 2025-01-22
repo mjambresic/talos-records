@@ -1,5 +1,7 @@
 #include "Item.h"
 #include "ItemHandle.h"
+#include "Components/ShapeComponent.h"
+#include "GeometryCollection/GeometryCollectionSimulationTypes.h"
 
 UItem::UItem()
 {
@@ -38,6 +40,17 @@ void UItem::Interact(UItemHandle* ItemHandle)
 	ItemHandle->PickUpItem(this);
 }
 
+void UItem::SetCollisionEnabled(ECollisionEnabled::Type CollisionType) const
+{
+	Collider->SetCollisionEnabled(CollisionType);
+}
+
+void UItem::SetInteractionCollisionResponse(const ECollisionResponse Response) const
+{
+	Collider->SetCollisionResponseToChannel(ECC_GameTraceChannel1, Response);
+	Collider->SetCollisionResponseToChannel(ECC_GameTraceChannel2, Response);
+}
+
 bool UItem::Interactable(UItemHandle* ItemHandle)
 {
 	return !ItemHandle->HasItem();
@@ -51,5 +64,10 @@ void UItem::SetPlacementVisualizerVisible(bool Visible) const
 void UItem::SetPlacementVisualizer(USceneComponent* Visualizer)
 {
 	PlacementVisualizer = Visualizer;
+}
+
+void UItem::SetCollider(UShapeComponent* ShapeCollider)
+{
+	Collider = ShapeCollider;
 }
 

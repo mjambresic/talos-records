@@ -114,33 +114,29 @@ void UItemHandle::PlaceItemToEligiblePlace()
 {
 	if (HasItem() && HitActorCanHoldItem)
 	{
-		if (CurrentItemPad != nullptr)
+		SetItemPhysicsProperties(ECollisionEnabled::QueryAndPhysics);
+
+		if (CurrentItemPad != nullptr && CurrentItemPad->CanPlaceItem())
 		{
-			if (CurrentItemPad->CanPlaceItem()) // Places item on pad.
-			{
-				CurrentItemPad->PlaceItem(CurrentItem);
-				PlaceItem(ECollisionEnabled::PhysicsOnly);
-				return;
-			}
-            
-			return; // Doesn't place item.
+			CurrentItemPad->PlaceItem(CurrentItem);
+			CurrentItem->SetInteractionCollisionResponse(ECR_Ignore);
+			PlaceItem();
+			return;
 		}
-        
-		PlaceItem(ECollisionEnabled::QueryAndPhysics); // Places item in world.
+
+		CurrentItem->SetInteractionCollisionResponse(ECR_Block);
+		PlaceItem();
 	}
 }
 
-void UItemHandle::PlaceItem(ECollisionEnabled::Type CollisionType)
+void UItemHandle::PlaceItem()
 {
 	CurrentItem->SetPlacementVisualizerVisible(false);
 	CurrentItem->SetItemTransformToVisualizerTransform();
-	SetItemPhysicsProperties(CollisionType);
 	CurrentItem = nullptr;
 }
 
-
 void UItemHandle::SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const
 {
-	UPrimitiveComponent* InteractableActorPrimitiveComponent = CurrentItem->GetOwner()->FindComponentByClass<UPrimitiveComponent>();
-	InteractableActorPrimitiveComponent->SetCollisionEnabled(CollisionType);
+	CurrentItem->SetCollisionEnabled(CollisionType);
 }

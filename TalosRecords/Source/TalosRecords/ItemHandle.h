@@ -26,7 +26,7 @@ public:
 	void HandleItemRotation() const;
 	bool HasItem() const;
 	void SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const;
-	void PlaceItem(ECollisionEnabled::Type CollisionType);
+	void PlaceItem();
 	void ResolveItemPlacingTrace();
 	bool TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor);
 	bool TryResolveVisualizationOnPad(const AActor* Actor);
