@@ -31,6 +31,13 @@ void UInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 
 void UInteraction::ScanForInteractableObject(const FVector& StartPoint, const FVector& EndPoint)
 {
+	// Stops interaction system if we handle item.
+	if (ItemHandle->HandlesItem())
+	{
+		return;
+	}
+
+	// Scans for interactable objects
 	FCollisionShape Sphere = FCollisionShape::MakeSphere(InteractionRadius);
 	FHitResult HitResult;
 	GetWorld()->SweepSingleByChannel
