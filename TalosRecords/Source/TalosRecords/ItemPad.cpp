@@ -34,12 +34,12 @@ FRotator UItemPad::GetSocketRotation() const
 
 bool UItemPad::CanPlaceItem() const
 {
-	return CurrentItem == nullptr;
+	return !HasItemPlaced();
 }
 
 bool UItemPad::CanTakeItem() const
 {
-	return CurrentItem != nullptr;
+	return HasItemPlaced();
 }
 
 void UItemPad::PlaceItem(UItem* Item)
@@ -55,10 +55,15 @@ void UItemPad::Interact(UItemHandle* ItemHandle)
 
 bool UItemPad::Interactable(UItemHandle* ItemHandle)
 {
-	return CurrentItem != nullptr;
+	return HasItemPlaced();
 }
 
 bool UItemPad::IsCompleted()
+{
+	return HasItemPlaced();
+}
+
+bool UItemPad::HasItemPlaced() const
 {
 	return CurrentItem != nullptr;
 }
