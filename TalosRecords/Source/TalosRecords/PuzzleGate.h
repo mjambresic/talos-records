@@ -2,26 +2,27 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ObjectiveGate.generated.h"
+#include "PuzzleGate.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TALOSRECORDS_API UObjectiveGate : public UActorComponent
+class TALOSRECORDS_API UPuzzleGate : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	UObjectiveGate();
+	UPuzzleGate();
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void SetOpen(bool Open);
+
+private:
 	void Open(float DeltaTime) const;
 	void Close(float DeltaTime) const;
 	void Move(float DeltaTime, const FVector& TargetLocation) const;
-	void ResolveObjectivesCleared(float DeltaTime) const;
+	void ResolveOpenStatus(float DeltaTime) const;
 
 protected:
 	virtual void BeginPlay() override;
-
-public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
 
@@ -35,5 +36,5 @@ private:
 	float OpenDuration = 1.0f;
 
 	UPROPERTY(EditAnywhere)
-	bool objectivesCleared = false;
+	bool IsOpen = false;
 };

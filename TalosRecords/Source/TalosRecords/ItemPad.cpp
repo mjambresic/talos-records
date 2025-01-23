@@ -57,3 +57,8 @@ bool UItemPad::Interactable(UItemHandle* ItemHandle)
 {
 	return CurrentItem != nullptr;
 }
+
+bool UItemPad::IsCompleted()
+{
+	return CurrentItem != nullptr;
+}

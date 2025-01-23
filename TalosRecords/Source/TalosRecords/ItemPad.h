@@ -1,12 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IObjective.h"
 #include "Item.h"
 #include "Components/ActorComponent.h"
 #include "ItemPad.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TALOSRECORDS_API UItemPad : public UActorComponent, public IInteractable
+class TALOSRECORDS_API UItemPad : public UActorComponent, public IInteractable, public IObjective
 {
 	GENERATED_BODY()
 
@@ -26,6 +27,7 @@ public:
 	UItem* TakeItem();
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
+	virtual bool IsCompleted() override;
 	
 	UFUNCTION(BlueprintCallable)
 	void SetItemSocket(USceneComponent* ItemSocketSceneComponent);

@@ -1,27 +1,32 @@
-#include "ObjectiveGate.h"
+#include "PuzzleGate.h"
 #include "Math/UnrealMathUtility.h"
 
-UObjectiveGate::UObjectiveGate()
+UPuzzleGate::UPuzzleGate()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UObjectiveGate::BeginPlay()
+void UPuzzleGate::BeginPlay()
 {
 	Super::BeginPlay();
 	BeginLocation = GetOwner()->GetActorLocation();
 	MoveSpeed = FVector::Distance(BeginLocation, BeginLocation + OpenOffset) / OpenDuration;
 }
 
-void UObjectiveGate::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UPuzzleGate::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	ResolveObjectivesCleared(DeltaTime);
+	ResolveOpenStatus(DeltaTime);
 }
 
-void UObjectiveGate::ResolveObjectivesCleared(float DeltaTime) const
+void UPuzzleGate::SetOpen(const bool Open)
 {
-	if (objectivesCleared)
+	IsOpen = Open;
+}
+
+void UPuzzleGate::ResolveOpenStatus(float DeltaTime) const
+{
+	if (IsOpen)
 	{
 		Open(DeltaTime);
 	}
@@ -31,17 +36,17 @@ void UObjectiveGate::ResolveObjectivesCleared(float DeltaTime) const
 	}
 }
 
-void UObjectiveGate::Open(float DeltaTime) const
+void UPuzzleGate::Open(float DeltaTime) const
 {
 	Move(DeltaTime, BeginLocation + OpenOffset);
 }
 
-void UObjectiveGate::Close(float DeltaTime) const
+void UPuzzleGate::Close(float DeltaTime) const
 {
 	Move(DeltaTime, BeginLocation);
 }
 
-void UObjectiveGate::Move(float DeltaTime, const FVector& TargetLocation) const
+void UPuzzleGate::Move(float DeltaTime, const FVector& TargetLocation) const
 {
 	FVector CurrentLocation = GetOwner()->GetActorLocation();
 	FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, MoveSpeed);
