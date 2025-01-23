@@ -67,3 +67,4 @@ bool UItemPad::HasItemPlaced() const
 {
 	return CurrentItem != nullptr;
 }
+
