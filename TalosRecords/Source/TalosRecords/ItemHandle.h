@@ -21,6 +21,7 @@ protected:
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult) const;
 	void TakeItem(UItem* Item);
 	void HandleItemTransform() const;
 	void HandleItemRotation() const;
@@ -28,6 +29,7 @@ public:
 	void SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const;
 	void PlaceItem();
 	void ResolveItemPlacingTrace();
+	bool ItemPlacingTrace(FHitResult& HitResult) const;
 	bool TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor);
 	bool TryResolveVisualizationOnPad(const AActor* Actor);
 	void UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const;

@@ -25,10 +25,8 @@ void UItemHandle::ResolveItemPlacingTrace()
 {
 	if (HasItem())
 	{
-		FVector PlacingStartPoint = Camera->GetComponentLocation();
-		FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
 		FHitResult HitResult;
-		CanPlaceItem = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
+		CanPlaceItem = ItemPlacingTrace(HitResult);
 		AActor* HitActor = HitResult.GetActor();
 
 		if (TryCheckIfActorIsTaggedToHoldItem(HitActor))
@@ -38,18 +36,19 @@ void UItemHandle::ResolveItemPlacingTrace()
 				return;
 			}
 
-			// Places visualization on non pad surface that can hold items, additionally sets placement rotation/direction based on the surface impact normal
-			FVector ImpactNormal = HitResult.ImpactNormal;
-			FVector ItemForwardVector = CurrentItem->GetOwner()->GetActorForwardVector();
-			FVector AdjustedForward = FVector::VectorPlaneProject(ItemForwardVector, ImpactNormal).GetSafeNormal();
-			FRotator VisualizerRotation = FRotationMatrix::MakeFromXZ(AdjustedForward, ImpactNormal).Rotator();
-			UpdatePlacementVisualizer(CanPlaceItem, HitResult.ImpactPoint, VisualizerRotation);
-
+			ResolveItemPlacingOnNonPadSurface(HitResult);
 			return;
 		}
 
 		CurrentItem->SetPlacementVisualizerVisible(false);
 	}
+}
+
+bool UItemHandle::ItemPlacingTrace(FHitResult& HitResult) const
+{
+	FVector PlacingStartPoint = Camera->GetComponentLocation();
+	FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
+	return GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
 }
 
 bool UItemHandle::TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor)
@@ -77,6 +76,16 @@ bool UItemHandle::TryResolveVisualizationOnPad(const AActor* Actor)
 	}
 
 	return false;
+}
+
+void UItemHandle::ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult) const
+{
+	// Places item visualization on non pad surface that can hold items, additionally sets placement rotation/direction based on the surface impact normal
+	FVector ImpactNormal = HitResult.ImpactNormal;
+	FVector ItemForwardVector = CurrentItem->GetOwner()->GetActorForwardVector();
+	FVector AdjustedForward = FVector::VectorPlaneProject(ItemForwardVector, ImpactNormal).GetSafeNormal();
+	FRotator VisualizerRotation = FRotationMatrix::MakeFromXZ(AdjustedForward, ImpactNormal).Rotator();
+	UpdatePlacementVisualizer(CanPlaceItem, HitResult.ImpactPoint, VisualizerRotation);
 }
 
 void UItemHandle::UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const
