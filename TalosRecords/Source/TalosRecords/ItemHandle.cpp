@@ -37,12 +37,14 @@ void UItemHandle::ResolveItemPlacingTrace()
 			{
 				return;
 			}
-			
-			// Places visualization on non pad surface that can hold items.
-			ItemInteractionText = DROP_INTERACTION_TEXT;
-			FRotator ImpactRotation = HitResult.ImpactNormal.Rotation();
-			ImpactRotation.Yaw = CurrentItem->GetOwner()->GetActorRotation().Yaw;
-			UpdatePlacementVisualizer(CanPlaceItem, HitResult.ImpactPoint, ImpactRotation);
+
+			// Places visualization on non pad surface that can hold items, additionally sets placement rotation/direction based on the surface impact normal
+			FVector ImpactNormal = HitResult.ImpactNormal;
+			FVector ItemForwardVector = CurrentItem->GetOwner()->GetActorForwardVector();
+			FVector AdjustedForward = FVector::VectorPlaneProject(ItemForwardVector, ImpactNormal).GetSafeNormal();
+			FRotator VisualizerRotation = FRotationMatrix::MakeFromXZ(AdjustedForward, ImpactNormal).Rotator();
+			UpdatePlacementVisualizer(CanPlaceItem, HitResult.ImpactPoint, VisualizerRotation);
+
 			return;
 		}
 
