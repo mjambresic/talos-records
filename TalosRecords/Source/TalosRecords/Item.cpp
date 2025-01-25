@@ -37,7 +37,7 @@ void UItem::SetItemTransformToVisualizerTransform() const
 
 void UItem::Interact(UItemHandle* ItemHandle)
 {
-	ItemHandle->PickUpItem(this);
+	ItemHandle->TakeItem(this);
 }
 
 void UItem::SetCollisionEnabled(ECollisionEnabled::Type CollisionType) const
@@ -54,6 +54,11 @@ void UItem::SetInteractionCollisionResponse(const ECollisionResponse Response) c
 bool UItem::Interactable(UItemHandle* ItemHandle)
 {
 	return !ItemHandle->HasItem();
+}
+
+FString UItem::GetInteractionText()
+{
+	return InteractionText;
 }
 
 void UItem::SetPlacementVisualizerVisible(bool Visible) const

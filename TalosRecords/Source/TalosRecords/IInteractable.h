@@ -19,4 +19,5 @@ class TALOSRECORDS_API IInteractable
 public:
 	virtual void Interact(UItemHandle* ItemHandle) = 0;
 	virtual bool Interactable(UItemHandle* ItemHandle) = 0;
+	virtual FString GetInteractionText() = 0;
 };

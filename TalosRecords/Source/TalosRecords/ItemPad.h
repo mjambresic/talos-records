@@ -27,6 +27,7 @@ public:
 	UItem* TakeItem();
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
+	virtual FString GetInteractionText() override;	
 	virtual bool IsCompleted() override;
 
 	UFUNCTION(BlueprintCallable)

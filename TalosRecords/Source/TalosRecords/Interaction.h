@@ -23,6 +23,12 @@ private:
 	void ScanForInteractableObject(const FVector& StartPoint, const FVector& EndPoint);
 	void ResolveInteractableObjectFromHitResult(const FHitResult& HitResult);
 
+	UFUNCTION(BlueprintCallable)
+	FString GetInteractableObjectText() const;
+
+	UFUNCTION(BlueprintCallable)
+	bool HasValidInteractableObject() const;
+
 protected:
 	virtual void BeginPlay() override;
 

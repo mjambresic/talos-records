@@ -34,6 +34,7 @@ void UInteraction::ScanForInteractableObject(const FVector& StartPoint, const FV
 	// Stops interaction system if we handle item.
 	if (ItemHandle->HasItem())
 	{
+		InteractableObject = nullptr;
 		return;
 	}
 
@@ -76,6 +77,16 @@ void UInteraction::ResolveInteractableObjectFromHitResult(const FHitResult& HitR
 	}
 }
 
+FString UInteraction::GetInteractableObjectText() const
+{
+	return InteractableObject->GetInteractionText();
+}
+
+bool UInteraction::HasValidInteractableObject() const
+{
+	return InteractableObject != nullptr && InteractableObject->Interactable(ItemHandle);
+}
+
 void UInteraction::OnPrimaryActionPressed() const
 {
 	if (ItemHandle->HasItem())
@@ -84,7 +95,7 @@ void UInteraction::OnPrimaryActionPressed() const
 		return;
 	}
 
-	if (InteractableObject != nullptr && InteractableObject->Interactable(ItemHandle))
+	if (HasValidInteractableObject())
 	{
 		InteractableObject->Interact(ItemHandle);
 		return;

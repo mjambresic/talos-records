@@ -1,5 +1,8 @@
 #include "ItemHandle.h"
 
+static const FString DROP_INTERACTION_TEXT = TEXT("Drop");
+static const FString PLACE_INTERACTION_TEXT = TEXT("Place");
+
 UItemHandle::UItemHandle()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -25,7 +28,7 @@ void UItemHandle::ResolveItemPlacingTrace()
 		FVector PlacingStartPoint = Camera->GetComponentLocation();
 		FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
 		FHitResult HitResult;
-		HitActorCanHoldItem = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
+		CanPlaceItem = GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
 		AActor* HitActor = HitResult.GetActor();
 
 		if (TryCheckIfActorIsTaggedToHoldItem(HitActor))
@@ -36,9 +39,10 @@ void UItemHandle::ResolveItemPlacingTrace()
 			}
 			
 			// Places visualization on non pad surface that can hold items.
+			ItemInteractionText = DROP_INTERACTION_TEXT;
 			FRotator ImpactRotation = HitResult.ImpactNormal.Rotation();
 			ImpactRotation.Yaw = CurrentItem->GetOwner()->GetActorRotation().Yaw;
-			UpdatePlacementVisualizer(HitActorCanHoldItem, HitResult.ImpactPoint, ImpactRotation);
+			UpdatePlacementVisualizer(CanPlaceItem, HitResult.ImpactPoint, ImpactRotation);
 			return;
 		}
 
@@ -49,8 +53,8 @@ void UItemHandle::ResolveItemPlacingTrace()
 bool UItemHandle::TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor)
 {
 	// TODO: Replace tag with custom tag system, component?
-	HitActorCanHoldItem = HitActorCanHoldItem && Actor != nullptr && Actor->Tags.Contains(FName("CanHoldItem"));
-	return HitActorCanHoldItem;
+	CanPlaceItem = CanPlaceItem && Actor != nullptr && Actor->Tags.Contains(FName("CanHoldItem"));
+	return CanPlaceItem;
 }
 
 bool UItemHandle::TryResolveVisualizationOnPad(const AActor* Actor)
@@ -61,11 +65,12 @@ bool UItemHandle::TryResolveVisualizationOnPad(const AActor* Actor)
 		if (CurrentItemPad->CanPlaceItem())
 		{
 			UpdatePlacementVisualizer(true, CurrentItemPad->GetSocketLocation(), CurrentItemPad->GetSocketRotation());
+			ItemInteractionText = PLACE_INTERACTION_TEXT;
 			return true;
 		}
 
 		CurrentItem->SetPlacementVisualizerVisible(false);
-		HitActorCanHoldItem = false;
+		CanPlaceItem = false;
 		return true;
 	}
 
@@ -78,6 +83,17 @@ void UItemHandle::UpdatePlacementVisualizer(bool Visible, const FVector& Locatio
 	CurrentItem->SetPlacementVisualizerLocation(Location);
 	CurrentItem->SetPlacementVisualizerRotation(Rotation);
 }
+
+bool UItemHandle::GetCanPlaceItem() const
+{
+	return HasItem() && CanPlaceItem;
+}
+
+FString UItemHandle::GetItemInteractionText() const
+{
+	return ItemInteractionText;
+}
+
 
 void UItemHandle::HandleItemTransform() const
 {
@@ -105,7 +121,7 @@ bool UItemHandle::HasItem() const
 	return CurrentItem != nullptr;
 }
 
-void UItemHandle::PickUpItem(UItem* Item)
+void UItemHandle::TakeItem(UItem* Item)
 {
 	CurrentItem = Item;
 	SetItemPhysicsProperties(ECollisionEnabled::NoCollision);
@@ -113,7 +129,7 @@ void UItemHandle::PickUpItem(UItem* Item)
 
 void UItemHandle::PlaceItemToEligiblePlace()
 {
-	if (HasItem() && HitActorCanHoldItem)
+	if (HasItem() && CanPlaceItem)
 	{
 		SetItemPhysicsProperties(ECollisionEnabled::QueryAndPhysics);
 

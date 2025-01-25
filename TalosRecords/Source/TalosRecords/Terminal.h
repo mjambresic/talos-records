@@ -22,7 +22,13 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
+	virtual FString GetInteractionText() override;	
 
 	UPROPERTY(BlueprintAssignable)
 	FOnInteract OnInteract;
+
+private:
+
+	UPROPERTY(EditAnywhere)
+	FString InteractionText = "Use";
 };

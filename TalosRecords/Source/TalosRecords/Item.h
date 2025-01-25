@@ -22,10 +22,11 @@ public:
 	void SetPlacementVisualizerLocation(FVector Location) const;
 	void SetPlacementVisualizerRotation(const FRotator& Rotation) const;
 	void SetItemTransformToVisualizerTransform() const;
-	virtual void Interact(UItemHandle* ItemHandle) override;
 	void SetCollisionEnabled(ECollisionEnabled::Type CollisionType) const;
 	void SetInteractionCollisionResponse(ECollisionResponse Response) const;
+	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
+	virtual FString GetInteractionText() override;	
 
 	UFUNCTION(BlueprintCallable)
 	void SetPlacementVisualizerVisible(bool Visible) const;
@@ -39,6 +40,9 @@ public:
 private:
 	USceneComponent* PlacementVisualizer;
 	UShapeComponent* Collider;
+
+	UPROPERTY(EditAnywhere)
+	FString InteractionText = "Take Item";
 
 	UPROPERTY(EditAnywhere)
 	float BaseOffset = 0.0f;

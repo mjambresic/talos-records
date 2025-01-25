@@ -49,13 +49,18 @@ void UItemPad::PlaceItem(UItem* Item)
 
 void UItemPad::Interact(UItemHandle* ItemHandle)
 {
-	ItemHandle->PickUpItem(CurrentItem);
+	ItemHandle->TakeItem(CurrentItem);
 	CurrentItem = nullptr;
 }
 
 bool UItemPad::Interactable(UItemHandle* ItemHandle)
 {
 	return HasItemPlaced();
+}
+
+FString UItemPad::GetInteractionText()
+{
+	return CurrentItem->GetInteractionText();
 }
 
 bool UItemPad::IsCompleted()

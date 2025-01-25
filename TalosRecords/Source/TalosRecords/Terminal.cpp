@@ -25,3 +25,8 @@ bool UTerminal::Interactable(UItemHandle* ItemHandle)
 	return true;
 }
 
+FString UTerminal::GetInteractionText()
+{
+	return InteractionText;
+}
+

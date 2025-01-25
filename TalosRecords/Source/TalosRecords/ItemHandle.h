@@ -21,7 +21,7 @@ protected:
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void PickUpItem(UItem* Item);
+	void TakeItem(UItem* Item);
 	void HandleItemTransform() const;
 	void HandleItemRotation() const;
 	bool HasItem() const;
@@ -33,13 +33,20 @@ public:
 	void UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const;
 
 	UFUNCTION(BlueprintCallable)
+	bool GetCanPlaceItem() const;
+
+	UFUNCTION(BlueprintCallable)
+	FString GetItemInteractionText() const;
+
+	UFUNCTION(BlueprintCallable)
 	void PlaceItemToEligiblePlace();
 
 private:
 	UItem* CurrentItem;
 	UItemPad* CurrentItemPad;
 	UCameraComponent* Camera;
-	bool HitActorCanHoldItem;
+	FString ItemInteractionText;
+	bool CanPlaceItem;
 	
 	UPROPERTY(EditAnywhere)
 	FVector ItemRotationOffset = FVector(0, 0, 0);
