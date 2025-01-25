@@ -65,6 +65,7 @@ bool UItemHandle::TryResolveVisualizationOnPad(const AActor* Actor)
 		}
 
 		CurrentItem->SetPlacementVisualizerVisible(false);
+		HitActorCanHoldItem = false;
 		return true;
 	}
 
