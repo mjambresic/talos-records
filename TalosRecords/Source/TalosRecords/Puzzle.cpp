@@ -22,17 +22,41 @@ void UPuzzle::ResolveObjectives()
 	{
 		if (!Objective->IsCompleted())
 		{
-			PuzzleGate->SetOpen(false);
+			Gate->SetOpen(false);
 			return;
 		}
 	}
 
-	PuzzleGate->SetOpen(true);
+	Gate->SetOpen(true);
 }
 
-void UPuzzle::SetPuzzleGate(UPuzzleGate* Gate)
+void UPuzzle::ResolveEnter()
 {
-	PuzzleGate = Gate;
+	if (Entered)
+	{
+		return;
+	}
+
+	Entered = true;
+	PuzzleEntered.Broadcast();
+}
+
+void UPuzzle::ResolveExit()
+{
+	if (!Entered)
+	{
+		return;
+	}
+	
+	Entered = false;
+	PuzzleExited.Broadcast();
+
+	// TODO: Reset puzzle on exit.
+}
+
+void UPuzzle::SetPuzzleGate(UPuzzleGate* PuzzleGate)
+{
+	Gate = PuzzleGate;
 }
 
 void UPuzzle::AddObjectives(const TArray<TScriptInterface<IObjective>>& ObjectiveArray)

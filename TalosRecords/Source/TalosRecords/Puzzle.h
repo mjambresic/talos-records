@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "Puzzle.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPuzzleEntered);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPuzzleExited);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TALOSRECORDS_API UPuzzle : public UActorComponent
@@ -21,15 +23,27 @@ protected:
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void ResolveObjectives();
+
+	UFUNCTION(BlueprintCallable)
+	void ResolveEnter();
+
+	UFUNCTION(BlueprintCallable)
+	void ResolveExit();
 	
 	UFUNCTION(BlueprintCallable)
-	void SetPuzzleGate(UPuzzleGate* Gate);
-	
+	void SetPuzzleGate(UPuzzleGate* PuzzleGate);
+		
 	UFUNCTION(BlueprintCallable)
 	void AddObjectives(const TArray<TScriptInterface<IObjective>>& ObjectiveArray);
 
+	UPROPERTY(BlueprintAssignable)
+	FPuzzleEntered PuzzleEntered;
+	
+	UPROPERTY(BlueprintAssignable)
+	FPuzzleExited PuzzleExited;
 
 private:
 	TArray<TScriptInterface<IObjective>> Objectives;
-	UPuzzleGate* PuzzleGate;
+	UPuzzleGate* Gate;
+	bool Entered = false;
 };
