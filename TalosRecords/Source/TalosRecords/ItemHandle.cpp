@@ -78,7 +78,7 @@ bool UItemHandle::TryResolveVisualizationOnPad(const AActor* Actor)
 	return false;
 }
 
-void UItemHandle::ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult) const
+void UItemHandle::ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult)
 {
 	// Places item visualization on non pad surface that can hold items, additionally sets placement rotation/direction based on the surface impact normal
 	FVector ImpactNormal = HitResult.ImpactNormal;
@@ -86,6 +86,7 @@ void UItemHandle::ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult)
 	FVector AdjustedForward = FVector::VectorPlaneProject(ItemForwardVector, ImpactNormal).GetSafeNormal();
 	FRotator VisualizerRotation = FRotationMatrix::MakeFromXZ(AdjustedForward, ImpactNormal).Rotator();
 	UpdatePlacementVisualizer(CanPlaceItem, HitResult.ImpactPoint, VisualizerRotation);
+	ItemInteractionText = DROP_INTERACTION_TEXT;
 }
 
 void UItemHandle::UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const
