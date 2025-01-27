@@ -19,15 +19,30 @@ protected:
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void ResolveStates(float DeltaTime);
+	void Record(float DeltaTime);
+	void Play(float DeltaTime);
+	void Stop();
+	void SwitchState();
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 	virtual FString GetInteractionText() override;
 
+	UFUNCTION(BlueprintCallable)
+	bool GetIsRecording() const;
+
+	UFUNCTION(BlueprintCallable)
+	FString GetFormattedAccumulatedTime() const;
+	
 	UPROPERTY(BlueprintAssignable)
 	FOnInteract OnInteract;
 
 private:
 	FString InteractionText = "Record";
-	bool Recording = false;
 	bool Playing = false;
+	bool Recording = false;
+	float AccumulatedRecordingTimeSeconds = 0;
+	
+	UPROPERTY(EditAnywhere)
+	float MaxRecordingTimeSeconds = 300;
 };
