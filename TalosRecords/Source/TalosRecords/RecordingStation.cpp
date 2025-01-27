@@ -11,6 +11,7 @@ constexpr int32 MillisecondsPerSecond = 1000;
 URecordingStation::URecordingStation()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.TickInterval = TickInterval;
 }
 
 void URecordingStation::BeginPlay()
@@ -18,6 +19,7 @@ void URecordingStation::BeginPlay()
 	Super::BeginPlay();
 }
 
+// Remember that this component has custom Tick Interval set, to limit snapshotting performance impact.
 void URecordingStation::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -52,6 +54,11 @@ FString URecordingStation::GetFormattedAccumulatedTime() const
     int32 Seconds = FMath::FloorToInt(AccumulatedRecordingTimeSeconds) % SecondsPerMinute;
     int32 Milliseconds = FMath::FloorToInt((AccumulatedRecordingTimeSeconds - FMath::FloorToInt(AccumulatedRecordingTimeSeconds)) * MillisecondsPerSecond);
 	return FString::Printf(TEXT("%02d:%02d.%03d"), Minutes, Seconds, Milliseconds);
+}
+
+void URecordingStation::AddRecordables(const TArray<TScriptInterface<IRecordable>>& RecordableArray)
+{
+	Recordables.Append(RecordableArray);
 }
 
 void URecordingStation::Interact(UItemHandle* ItemHandle)

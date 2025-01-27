@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "IInteractable.h"
+#include "IRecordable.h"
 #include "Components/ActorComponent.h"
 #include "RecordingStation.generated.h"
 
@@ -39,12 +40,18 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnInteract OnInteract;
 
+	UFUNCTION(BlueprintCallable)
+	void AddRecordables(const TArray<TScriptInterface<IRecordable>>& RecordableArray);
+
 private:
-	FString InteractionText = "Record";
 	bool Playing = false;
 	bool Recording = false;
 	float AccumulatedRecordingTimeSeconds = 0;
+	TArray<TScriptInterface<IRecordable>> Recordables;
 	
 	UPROPERTY(EditAnywhere)
 	float MaxRecordingTimeSeconds = 300;
+
+	UPROPERTY(EditAnywhere)
+	float TickInterval = 24;
 };
