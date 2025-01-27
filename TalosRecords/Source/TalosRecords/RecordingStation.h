@@ -29,4 +29,5 @@ public:
 private:
 	FString InteractionText = "Record";
 	bool Recording = false;
+	bool Playing = false;
 };
