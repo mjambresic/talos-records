@@ -62,14 +62,14 @@ FString UItem::GetInteractionText()
 
 void UItem::RecordSnapshot()
 {
-	RecordingLocations.Add(GetOwner()->GetActorLocation());
-	RecordingRotations.Add(GetOwner()->GetActorRotation());
+	LocationSnapshots.Add(GetOwner()->GetActorLocation());
+	RotationSnapshots.Add(GetOwner()->GetActorRotation());
 }
 
 void UItem::PlaySnapshot(int32 Index)
 {
-	RecordingVisualizer->SetWorldLocation(RecordingLocations[Index]);
-	RecordingVisualizer->SetWorldRotation(RecordingRotations[Index]);
+	RecordingVisualizer->SetWorldLocation(LocationSnapshots[Index]);
+	RecordingVisualizer->SetWorldRotation(RotationSnapshots[Index]);
 }
 
 void UItem::StartPlaying()
@@ -80,8 +80,8 @@ void UItem::StartPlaying()
 void UItem::StopPlaying()
 {
 	SetRecordingVisualizerVisible(false);
-	RecordingLocations.Empty();
-	RecordingRotations.Empty();
+	LocationSnapshots.Empty();
+	RotationSnapshots.Empty();
 }
 
 void UItem::SetPlacementVisualizerVisible(bool Visible) const

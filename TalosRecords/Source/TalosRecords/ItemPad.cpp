@@ -65,7 +65,23 @@ FString UItemPad::GetInteractionText()
 
 bool UItemPad::IsCompleted()
 {
-	return HasItemPlaced();
+	return HasItemPlaced() || CompletedOnRecord;
+}
+
+void UItemPad::RecordSnapshot()
+{
+	ObjectiveCompletedSnapshots.Add(HasItemPlaced());
+}
+
+void UItemPad::PlaySnapshot(int32 Index)
+{
+	CompletedOnRecord = ObjectiveCompletedSnapshots[Index];
+}
+
+void UItemPad::StopPlaying()
+{
+	CompletedOnRecord = false;
+	ObjectiveCompletedSnapshots.Empty();
 }
 
 bool UItemPad::HasItemPlaced() const

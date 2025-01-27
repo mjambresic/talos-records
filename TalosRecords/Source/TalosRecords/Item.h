@@ -52,8 +52,8 @@ private:
 	USceneComponent* PlacementVisualizer;
 	USceneComponent* RecordingVisualizer;
 	UShapeComponent* Collider;
-	TArray<FVector> RecordingLocations;
-	TArray<FRotator> RecordingRotations;
+	TArray<FVector> LocationSnapshots;
+	TArray<FRotator> RotationSnapshots;
 	
 	UPROPERTY(EditAnywhere)
 	FString InteractionText = "Take Item";

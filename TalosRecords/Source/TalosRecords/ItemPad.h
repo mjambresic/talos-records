@@ -7,7 +7,7 @@
 #include "ItemPad.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TALOSRECORDS_API UItemPad : public UActorComponent, public IInteractable, public IObjective
+class TALOSRECORDS_API UItemPad : public UActorComponent, public IInteractable, public IObjective, public IRecordable
 {
 	GENERATED_BODY()
 
@@ -29,6 +29,10 @@ public:
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 	virtual FString GetInteractionText() override;	
 	virtual bool IsCompleted() override;
+	virtual void RecordSnapshot() override;
+	virtual void PlaySnapshot(int32 Index) override;
+	virtual void StartPlaying() override {};
+	virtual void StopPlaying() override;
 
 	UFUNCTION(BlueprintCallable)
 	bool HasItemPlaced() const;
@@ -37,6 +41,8 @@ public:
 	void SetItemSocket(USceneComponent* ItemSocketSceneComponent);
 	
 private:
+	TArray<bool> ObjectiveCompletedSnapshots;
+	bool CompletedOnRecord = false;
 	USceneComponent* ItemSocket;
 	UItem* CurrentItem;
 };
