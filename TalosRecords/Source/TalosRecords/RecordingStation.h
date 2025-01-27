@@ -9,6 +9,7 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TALOSRECORDS_API URecordingStation : public UActorComponent, public IInteractable
 {
 	GENERATED_BODY()
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInteract, bool, bRecording);
 
 public:	
 	URecordingStation();
@@ -22,6 +23,10 @@ public:
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 	virtual FString GetInteractionText() override;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnInteract OnInteract;
+
 private:
 	FString InteractionText = "Record";
+	bool Recording = false;
 };

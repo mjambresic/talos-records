@@ -17,7 +17,8 @@ void URecordingStation::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 void URecordingStation::Interact(UItemHandle* ItemHandle)
 {
-	UE_LOG(LogTemp, Display, TEXT("Record"));
+	Recording = !Recording;
+	OnInteract.Broadcast(Recording);
 }
 
 bool URecordingStation::Interactable(UItemHandle* ItemHandle)
@@ -27,6 +28,6 @@ bool URecordingStation::Interactable(UItemHandle* ItemHandle)
 
 FString URecordingStation::GetInteractionText()
 {
-	return InteractionText;
+	return Recording ? FString("Play") : FString("Record");
 }
 

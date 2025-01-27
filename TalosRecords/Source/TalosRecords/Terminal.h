@@ -5,12 +5,12 @@
 #include "Components/ActorComponent.h"
 #include "Terminal.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteract);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TALOSRECORDS_API UTerminal : public UActorComponent, public IInteractable
 {
 	GENERATED_BODY()
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteract);
 
 public:	
 	UTerminal();
