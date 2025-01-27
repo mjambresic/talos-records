@@ -16,21 +16,38 @@
 <br>
 
 # Features
-The following are main features of this prototype. They are mostly made in C++ and to be extendable.
+The prototype's key features are primarily developed in C++ and designed for extensibility.
 
 ## Interactable Objects
 >An interface that implements basic interaction methods.  
 >[IInteractable.h](TalosRecords/Source/TalosRecords/IInteractable.h)
 
-<br>
+>Base class of an item that player can interact with and place into the world.  
+>[Item.h](TalosRecords/Source/TalosRecords/Item.h)  
+>[Item.cpp](TalosRecords/Source/TalosRecords/Item.cpp)
+
+>Interactable object on which items can be placed, or taken from.  
+>[ItemPad.h](TalosRecords/Source/TalosRecords/ItemPad.h)  
+>[ItemPad.cpp](TalosRecords/Source/TalosRecords/Item.cpp)
+
+>Computer from which you access terminal.  
+>[Terminal.h](TalosRecords/Source/TalosRecords/Terminal.h)  
+>[Terminal.cpp](TalosRecords/Source/TalosRecords/Terminal.cpp)
 
 ## Player Interaction
 >Player interaction with the world.  
 >[Interaction.h](TalosRecords/Source/TalosRecords/Interaction.h)  
->[Interaction.cpp](TalosRecords/Source/TalosRecords/Interaction.cpp)  
+>[Interaction.cpp](TalosRecords/Source/TalosRecords/Interaction.cpp)
 
-<br>
+>Item interaction with world.  
+>[ItemHandle.h](TalosRecords/Source/TalosRecords/ItemHandle.h)  
+>[ItemHandle.cpp](TalosRecords/Source/TalosRecords/ItemHandle.cpp)  
 
-## Recording
-To add this feature.
+## Puzzle
+>An interface that implements objective related methods..  
+>[IObjective.h](TalosRecords/Source/TalosRecords/IObjective.h)  
+
+>Script that references different components of a puzzle, tracking if objectives are completed.  
+>[Puzzle.h](TalosRecords/Source/TalosRecords/Puzzle.h)  
+>[Puzzle.cpp](TalosRecords/Source/TalosRecords/Puzzle.cpp)  
 
