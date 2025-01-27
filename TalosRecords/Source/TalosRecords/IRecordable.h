@@ -15,6 +15,8 @@ class TALOSRECORDS_API IRecordable
 	GENERATED_BODY()
 
 public:
-	virtual void AddSnapshot() = 0;
-	virtual bool PlaySnapshot(int32 Index) = 0;
+	virtual void RecordSnapshot() = 0;
+	virtual void PlaySnapshot(int32 Index) = 0;
+	virtual void StartPlaying() = 0;
+	virtual void StopPlaying() = 0;
 };

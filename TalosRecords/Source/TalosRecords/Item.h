@@ -2,12 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "IInteractable.h"
+#include "IRecordable.h"
 #include "Components/ActorComponent.h"
 #include "Item.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TALOSRECORDS_API UItem : public UActorComponent, public IInteractable
+class TALOSRECORDS_API UItem : public UActorComponent, public IInteractable, public IRecordable
 {
 	GENERATED_BODY()
 
@@ -26,7 +27,11 @@ public:
 	void SetInteractionCollisionResponse(ECollisionResponse Response) const;
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
-	virtual FString GetInteractionText() override;	
+	virtual FString GetInteractionText() override;
+	virtual void RecordSnapshot() override;
+	virtual void PlaySnapshot(int32 Index) override;
+	virtual void StartPlaying() override;
+	virtual void StopPlaying() override;
 
 	UFUNCTION(BlueprintCallable)
 	void SetPlacementVisualizerVisible(bool Visible) const;
@@ -35,12 +40,21 @@ public:
 	void SetPlacementVisualizer(USceneComponent* Visualizer);
 
 	UFUNCTION(BlueprintCallable)
+	void SetRecordingVisualizerVisible(bool Visible) const;
+	
+	UFUNCTION(BlueprintCallable)
+	void SetRecordingVisualizer(USceneComponent* Visualizer);
+
+	UFUNCTION(BlueprintCallable)
 	void SetCollider(UShapeComponent* ShapeCollider);
 
 private:
 	USceneComponent* PlacementVisualizer;
+	USceneComponent* RecordingVisualizer;
 	UShapeComponent* Collider;
-
+	TArray<FVector> RecordingLocations;
+	TArray<FRotator> RecordingRotations;
+	
 	UPROPERTY(EditAnywhere)
 	FString InteractionText = "Take Item";
 

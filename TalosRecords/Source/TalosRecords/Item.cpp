@@ -1,7 +1,6 @@
 #include "Item.h"
 #include "ItemHandle.h"
 #include "Components/ShapeComponent.h"
-#include "GeometryCollection/GeometryCollectionSimulationTypes.h"
 
 UItem::UItem()
 {
@@ -61,6 +60,30 @@ FString UItem::GetInteractionText()
 	return InteractionText;
 }
 
+void UItem::RecordSnapshot()
+{
+	RecordingLocations.Add(GetOwner()->GetActorLocation());
+	RecordingRotations.Add(GetOwner()->GetActorRotation());
+}
+
+void UItem::PlaySnapshot(int32 Index)
+{
+	RecordingVisualizer->SetWorldLocation(RecordingLocations[Index]);
+	RecordingVisualizer->SetWorldRotation(RecordingRotations[Index]);
+}
+
+void UItem::StartPlaying()
+{
+	SetRecordingVisualizerVisible(true);
+}
+
+void UItem::StopPlaying()
+{
+	SetRecordingVisualizerVisible(false);
+	RecordingLocations.Empty();
+	RecordingRotations.Empty();
+}
+
 void UItem::SetPlacementVisualizerVisible(bool Visible) const
 {
 	PlacementVisualizer->SetVisibility(Visible, true);
@@ -69,6 +92,16 @@ void UItem::SetPlacementVisualizerVisible(bool Visible) const
 void UItem::SetPlacementVisualizer(USceneComponent* Visualizer)
 {
 	PlacementVisualizer = Visualizer;
+}
+
+void UItem::SetRecordingVisualizerVisible(bool Visible) const
+{
+	RecordingVisualizer->SetVisibility(Visible, true);
+}
+
+void UItem::SetRecordingVisualizer(USceneComponent* Visualizer)
+{
+	RecordingVisualizer = Visualizer;
 }
 
 void UItem::SetCollider(UShapeComponent* ShapeCollider)

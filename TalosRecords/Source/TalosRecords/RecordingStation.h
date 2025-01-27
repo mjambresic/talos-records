@@ -22,7 +22,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void ResolveStates(float DeltaTime);
 	void ResolveRecording(float DeltaTime);
-	void ResolvePlay(float DeltaTime);
+	void ResolvePlay();
 	void StopPlaying();
 	void SwitchState();
 	void StartRecording();
@@ -47,11 +47,10 @@ private:
 	bool Playing = false;
 	bool Recording = false;
 	float AccumulatedRecordingTimeSeconds = 0;
+	int32 SnapshotCount = 0;
+	int32 PlaySnapshotCount = 0;
 	TArray<TScriptInterface<IRecordable>> Recordables;
 	
 	UPROPERTY(EditAnywhere)
 	float MaxRecordingTimeSeconds = 300;
-
-	UPROPERTY(EditAnywhere)
-	float TickInterval = 24;
 };
