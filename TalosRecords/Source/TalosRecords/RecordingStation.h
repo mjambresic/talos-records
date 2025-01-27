@@ -20,10 +20,12 @@ protected:
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void ResolveStates(float DeltaTime);
-	void Record(float DeltaTime);
-	void Play(float DeltaTime);
-	void Stop();
+	void ResolveRecording(float DeltaTime);
+	void ResolvePlay(float DeltaTime);
+	void StopPlaying();
 	void SwitchState();
+	void StartRecording();
+	void StartPlaying();
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 	virtual FString GetInteractionText() override;

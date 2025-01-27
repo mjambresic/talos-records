@@ -1,5 +1,13 @@
 #include "RecordingStation.h"
 
+const FString RECORD_INTERACTION_TEXT = TEXT("Record");
+const FString PLAY_INTERACTION_TEXT = TEXT("Play");
+const FString STOP_INTERACTION_TEXT = TEXT("Stop");
+constexpr float RESET_TIME = 0.0f;
+constexpr float SecondsPerMinuteFloat = 60.0f;
+constexpr int32 SecondsPerMinute = 60; 
+constexpr int32 MillisecondsPerSecond = 1000;
+
 URecordingStation::URecordingStation()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -20,36 +28,29 @@ void URecordingStation::ResolveStates(float DeltaTime)
 {
 	if (Recording)
 	{
-		Record(DeltaTime);
+		ResolveRecording(DeltaTime);
 	}
 	else if (Playing)
 	{
-		Play(DeltaTime);
+		ResolvePlay(DeltaTime);
 	}
 }
 
-void URecordingStation::Record(float DeltaTime)
+void URecordingStation::ResolveRecording(float DeltaTime)
 {
 	AccumulatedRecordingTimeSeconds += DeltaTime;
 }
 
-void URecordingStation::Play(float DeltaTime)
+void URecordingStation::ResolvePlay(float DeltaTime)
 {
 	UE_LOG(LogTemp, Display, TEXT("Play."));
 }
 
-void URecordingStation::Stop()
-{
-	UE_LOG(LogTemp, Display, TEXT("Stop playing."));
-	Recording = false;
-	Playing = false;
-}
-
 FString URecordingStation::GetFormattedAccumulatedTime() const
 {
-	int32 Minutes = FMath::FloorToInt(AccumulatedRecordingTimeSeconds / 60.0f);
-	int32 Seconds = FMath::FloorToInt(AccumulatedRecordingTimeSeconds) % 60;
-	int32 Milliseconds = FMath::FloorToInt((AccumulatedRecordingTimeSeconds - FMath::FloorToInt(AccumulatedRecordingTimeSeconds)) * 1000);
+    int32 Minutes = FMath::FloorToInt(AccumulatedRecordingTimeSeconds / SecondsPerMinuteFloat);
+    int32 Seconds = FMath::FloorToInt(AccumulatedRecordingTimeSeconds) % SecondsPerMinute;
+    int32 Milliseconds = FMath::FloorToInt((AccumulatedRecordingTimeSeconds - FMath::FloorToInt(AccumulatedRecordingTimeSeconds)) * MillisecondsPerSecond);
 	return FString::Printf(TEXT("%02d:%02d.%03d"), Minutes, Seconds, Milliseconds);
 }
 
@@ -62,21 +63,35 @@ void URecordingStation::SwitchState()
 {
 	if (Playing)
 	{
-		Playing = false;
+		StopPlaying();
 	}
 	else if (Recording)
 	{
-		Recording = false;
-		Playing = true;
+		StartPlaying();
 	}
 	else
 	{
-		// Starts Recording
-		Recording = true;
-		AccumulatedRecordingTimeSeconds = 0;
+		StartRecording();
 	}
 
 	OnInteract.Broadcast(Recording);
+}
+
+void URecordingStation::StartRecording()
+{
+	Recording = true;
+	AccumulatedRecordingTimeSeconds = RESET_TIME;
+}
+
+void URecordingStation::StartPlaying()
+{
+	Recording = false;
+	Playing = true;
+}
+
+void URecordingStation::StopPlaying()
+{
+	Playing = false;
 }
 
 bool URecordingStation::Interactable(UItemHandle* ItemHandle)
@@ -86,7 +101,7 @@ bool URecordingStation::Interactable(UItemHandle* ItemHandle)
 
 FString URecordingStation::GetInteractionText()
 {
-	return Playing ? FString("Stop") : Recording ? FString("Play") : FString("Record");
+	return Playing ? STOP_INTERACTION_TEXT : Recording ? PLAY_INTERACTION_TEXT : RECORD_INTERACTION_TEXT;
 }
 
 bool URecordingStation::GetIsRecording() const
