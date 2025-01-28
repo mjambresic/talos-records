@@ -65,23 +65,26 @@ FString UItemPad::GetInteractionText()
 
 bool UItemPad::IsCompleted()
 {
-	return HasItemPlaced() || CompletedOnRecord;
+	return HasItemPlaced() || ObjectiveCompletedBySnapshot;
 }
 
 void UItemPad::RecordSnapshot()
 {
-	ObjectiveCompletedSnapshots.Add(HasItemPlaced());
+	Snapshots.Add
+	(
+		FItemPadSnapshot (HasItemPlaced())
+	);
 }
 
 void UItemPad::PlaySnapshot(int32 Index)
 {
-	CompletedOnRecord = ObjectiveCompletedSnapshots[Index];
+	ObjectiveCompletedBySnapshot = Snapshots[Index].ObjectiveCompleted;
 }
 
 void UItemPad::StopPlaying()
 {
-	CompletedOnRecord = false;
-	ObjectiveCompletedSnapshots.Empty();
+	ObjectiveCompletedBySnapshot = false;
+	Snapshots.Empty();
 }
 
 bool UItemPad::HasItemPlaced() const

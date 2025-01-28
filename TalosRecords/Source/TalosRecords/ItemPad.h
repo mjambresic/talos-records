@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "IObjective.h"
 #include "Item.h"
+#include "ItemPadSnapshot.h"
 #include "Components/ActorComponent.h"
 #include "ItemPad.generated.h"
 
@@ -41,8 +42,8 @@ public:
 	void SetItemSocket(USceneComponent* ItemSocketSceneComponent);
 	
 private:
-	TArray<bool> ObjectiveCompletedSnapshots;
-	bool CompletedOnRecord = false;
+	TArray<FItemPadSnapshot> Snapshots;
+	bool ObjectiveCompletedBySnapshot = false;
 	USceneComponent* ItemSocket;
 	UItem* CurrentItem;
 };

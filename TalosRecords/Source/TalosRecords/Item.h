@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "IInteractable.h"
 #include "IRecordable.h"
+#include "ItemSnapshot.h"
 #include "Components/ActorComponent.h"
 #include "Item.generated.h"
 
@@ -52,8 +53,7 @@ private:
 	USceneComponent* PlacementVisualizer;
 	USceneComponent* RecordingVisualizer;
 	UShapeComponent* Collider;
-	TArray<FVector> LocationSnapshots;
-	TArray<FRotator> RotationSnapshots;
+	TArray<FItemSnapshot> Snapshots;
 	
 	UPROPERTY(EditAnywhere)
 	FString InteractionText = "Take Item";

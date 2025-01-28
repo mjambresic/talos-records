@@ -62,14 +62,21 @@ FString UItem::GetInteractionText()
 
 void UItem::RecordSnapshot()
 {
-	LocationSnapshots.Add(GetOwner()->GetActorLocation());
-	RotationSnapshots.Add(GetOwner()->GetActorRotation());
+	Snapshots.Add
+	(
+		FItemSnapshot
+		(
+			GetOwner()->GetActorLocation(),
+			GetOwner()->GetActorRotation()
+		)
+	);
 }
 
 void UItem::PlaySnapshot(int32 Index)
 {
-	RecordingVisualizer->SetWorldLocation(LocationSnapshots[Index]);
-	RecordingVisualizer->SetWorldRotation(RotationSnapshots[Index]);
+	FItemSnapshot Snapshot = Snapshots[Index];
+	RecordingVisualizer->SetWorldLocation(Snapshot.Location);
+	RecordingVisualizer->SetWorldRotation(Snapshot.Rotation);
 }
 
 void UItem::StartPlaying()
@@ -80,8 +87,7 @@ void UItem::StartPlaying()
 void UItem::StopPlaying()
 {
 	SetRecordingVisualizerVisible(false);
-	LocationSnapshots.Empty();
-	RotationSnapshots.Empty();
+	Snapshots.Empty();
 }
 
 void UItem::SetPlacementVisualizerVisible(bool Visible) const
@@ -108,4 +114,3 @@ void UItem::SetCollider(UShapeComponent* ShapeCollider)
 {
 	Collider = ShapeCollider;
 }
-
