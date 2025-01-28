@@ -19,32 +19,37 @@ void UPlayerCharacter::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UPlayerCharacter::RecordSnapshot()
 {
-	LocationSnapshots.Add(GetOwner()->GetActorLocation());
-	RotationSnapshots.Add(GetOwner()->GetActorRotation());
-	
 	FVector Velocity = MovementComponent->Velocity;
-	VelocitySnapshots.Add(Velocity);
-	IsFallingSnapshots.Add(MovementComponent->IsFalling());
-
 	float GroundSpeed = Velocity.Size();
-	GroundSpeedSnapshots.Add(Velocity.Size2D());
-
 	bool Accelerating = MovementComponent->GetCurrentAcceleration() != FVector::ZeroVector;
-	ShouldMoveSnapshots.Add(Accelerating && GroundSpeed > GROUND_SPEED_THRESHOLD);
+	
+	Snapshots.Add
+	(
+		FPlayerCharacterSnapshot
+		(
+			GetOwner()->GetActorLocation(),
+			GetOwner()->GetActorRotation(),
+			MovementComponent->Velocity,
+			MovementComponent->Velocity.Size2D(),
+			Accelerating && GroundSpeed > GROUND_SPEED_THRESHOLD,
+			MovementComponent->IsFalling()
+		)
+	);
 }
 
 void UPlayerCharacter::PlaySnapshot(int32 Index)
 {
-	OnAnimationValueUpdate.Broadcast
+	FPlayerCharacterSnapshot Snapshot = Snapshots[Index];
+	OnPlaySnapshotAnimationValues.Broadcast
 	(
-		VelocitySnapshots[Index],
-		GroundSpeedSnapshots[Index],
-		ShouldMoveSnapshots[Index],
-		IsFallingSnapshots[Index]
+		Snapshot.Velocity,
+		Snapshot.GroundSpeed,
+		Snapshot.ShouldMove,
+		Snapshot.IsFalling
 	);
 
-	ThirdPersonPlayerMesh->SetWorldLocation(LocationSnapshots[Index]);
-	ThirdPersonPlayerMesh->SetWorldRotation(RotationSnapshots[Index]);
+	ThirdPersonPlayerMesh->SetWorldLocation(Snapshot.Location);
+	ThirdPersonPlayerMesh->SetWorldRotation(Snapshot.Rotation);
 }
 
 void UPlayerCharacter::StartPlaying()
@@ -55,12 +60,7 @@ void UPlayerCharacter::StartPlaying()
 void UPlayerCharacter::StopPlaying()
 {
 	ThirdPersonPlayerMesh->SetVisibility(false, true);
-	LocationSnapshots.Empty();
-	RotationSnapshots.Empty();
-	VelocitySnapshots.Empty();
-	GroundSpeedSnapshots.Empty();
-	IsFallingSnapshots.Empty();
-	ShouldMoveSnapshots.Empty();
+	Snapshots.Empty();
 }
 
 void UPlayerCharacter::SetMovementComponent(UCharacterMovementComponent* Component)
