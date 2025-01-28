@@ -2,8 +2,6 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 
-constexpr int32 ALLOWED_INTERACTABLE_COMPONENT_COUNT = 1;
-
 UInteraction::UInteraction()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -18,7 +16,6 @@ void UInteraction::BeginPlay()
 void UInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	FVector InteractionStartPoint = GetComponentLocation();
 	FVector InteractionEndPoint = InteractionStartPoint + GetForwardVector() * InteractionDistance;
 	ScanForInteractableObject(InteractionStartPoint, InteractionEndPoint);
@@ -58,6 +55,7 @@ void UInteraction::ResolveInteractableObjectFromHitResult(const FHitResult& HitR
 {
 	InteractableObject = nullptr;
 
+	// The following code tries to find all components on hit actor that implement interactable interface
 	AActor* HitActor = HitResult.GetActor();
 	if (HitActor != nullptr)
 	{
@@ -89,19 +87,18 @@ bool UInteraction::HasValidInteractableObject() const
 
 void UInteraction::OnPrimaryActionPressed() const
 {
+	// Handle interaction with item in hand.
 	if (ItemHandle->HasItem())
 	{
 		ItemHandle->PlaceItemToEligiblePlace();
 		return;
 	}
 
+	// Handle standard interaction with objects.
 	if (HasValidInteractableObject())
 	{
 		InteractableObject->Interact(ItemHandle);
-		return;
 	}
-
-	UE_LOG(LogTemp, Display, TEXT("Interactable actor not found."));
 }
 
 void UInteraction::DrawDebug(const FVector& StartPoint, const FVector& EndPoint) const

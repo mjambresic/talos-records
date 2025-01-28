@@ -4,8 +4,6 @@
 #include "UObject/Interface.h"
 #include "IObjective.generated.h"
 
-class UItemHandle;
-
 UINTERFACE(Blueprintable)
 class UObjective : public UInterface
 {
