@@ -105,6 +105,11 @@ void URecordingStation::StartRecording()
 	Recording = true;
 	AccumulatedRecordingTimeSeconds = RESET_TIME;
 	SnapshotCount = RESET_SNAPSHOT_COUNT;
+
+	for (const TScriptInterface<IRecordable>& Recordable : Recordables)
+	{
+		Recordable->StartRecording();
+	}
 }
 
 void URecordingStation::StartPlaying()

@@ -60,6 +60,14 @@ FString UItem::GetInteractionText()
 	return InteractionText;
 }
 
+void UItem::StartRecording()
+{
+	PreRecordingSnapshot.Location = GetOwner()->GetActorLocation();
+	PreRecordingSnapshot.Rotation = GetOwner()->GetActorRotation();
+	PreRecordingSnapshot.CollisionEnabledType = Collider->GetCollisionEnabled();
+	PreRecordingSnapshot.CollisionResponseChannel = Collider->GetCollisionResponseToChannel(ECC_GameTraceChannel1);
+}
+
 void UItem::RecordSnapshot()
 {
 	Snapshots.Add
@@ -82,12 +90,21 @@ void UItem::PlaySnapshot(int32 Index)
 void UItem::StartPlaying()
 {
 	SetRecordingVisualizerVisible(true);
+	ResetToPreRecordingState();
 }
 
 void UItem::StopPlaying()
 {
 	SetRecordingVisualizerVisible(false);
 	Snapshots.Empty();
+}
+
+void UItem::ResetToPreRecordingState() const
+{
+	GetOwner()->SetActorLocation(PreRecordingSnapshot.Location);
+	GetOwner()->SetActorRotation(PreRecordingSnapshot.Rotation);
+	SetCollisionEnabled(PreRecordingSnapshot.CollisionEnabledType);
+	SetInteractionCollisionResponse(PreRecordingSnapshot.CollisionResponseChannel);
 }
 
 void UItem::SetPlacementVisualizerVisible(bool Visible) const

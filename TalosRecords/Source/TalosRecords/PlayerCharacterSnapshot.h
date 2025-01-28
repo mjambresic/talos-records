@@ -8,10 +8,7 @@ struct FPlayerCharacterSnapshot
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly)
 	FVector Location;
-
-	UPROPERTY(BlueprintReadOnly)
 	FRotator Rotation;
 
 	UPROPERTY(BlueprintReadOnly)

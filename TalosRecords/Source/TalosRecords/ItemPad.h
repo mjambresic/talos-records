@@ -25,15 +25,16 @@ public:
 	bool CanPlaceItem() const;
 	bool CanTakeItem() const;
 	void PlaceItem(UItem* Item);
-	UItem* TakeItem();
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 	virtual FString GetInteractionText() override;	
 	virtual bool IsCompleted() override;
+	virtual void StartRecording() override;
 	virtual void RecordSnapshot() override;
 	virtual void PlaySnapshot(int32 Index) override;
-	virtual void StartPlaying() override {};
+	virtual void StartPlaying() override;
 	virtual void StopPlaying() override;
+	void ResetToPreRecordingState();
 
 	UFUNCTION(BlueprintCallable)
 	bool HasItemPlaced() const;
@@ -43,7 +44,8 @@ public:
 	
 private:
 	TArray<FItemPadSnapshot> Snapshots;
-	bool ObjectiveCompletedBySnapshot = false;
+	bool OverrideObjectiveCompleted = false;
+	FItemPadSnapshot PreRecordingSnapshot;
 	USceneComponent* ItemSocket;
 	UItem* CurrentItem;
 };

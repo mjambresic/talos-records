@@ -7,7 +7,6 @@
 #include "Components/ActorComponent.h"
 #include "Item.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TALOSRECORDS_API UItem : public UActorComponent, public IInteractable, public IRecordable
 {
@@ -29,10 +28,12 @@ public:
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 	virtual FString GetInteractionText() override;
+	virtual void StartRecording() override;
 	virtual void RecordSnapshot() override;
 	virtual void PlaySnapshot(int32 Index) override;
 	virtual void StartPlaying() override;
 	virtual void StopPlaying() override;
+	void ResetToPreRecordingState() const;
 
 	UFUNCTION(BlueprintCallable)
 	void SetPlacementVisualizerVisible(bool Visible) const;
@@ -53,6 +54,7 @@ private:
 	USceneComponent* PlacementVisualizer;
 	USceneComponent* RecordingVisualizer;
 	UShapeComponent* Collider;
+	FItemSnapshot PreRecordingSnapshot;
 	TArray<FItemSnapshot> Snapshots;
 	
 	UPROPERTY(EditAnywhere)

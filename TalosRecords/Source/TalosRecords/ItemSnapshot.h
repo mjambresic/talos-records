@@ -8,11 +8,10 @@ struct FItemSnapshot
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly)
 	FVector Location;
-
-	UPROPERTY(BlueprintReadOnly)
 	FRotator Rotation;
+	ECollisionEnabled::Type CollisionEnabledType;
+	ECollisionResponse CollisionResponseChannel;
 
 	FItemSnapshot() {}
 
@@ -20,5 +19,13 @@ struct FItemSnapshot
 	{
 		Location = InLocation;
 		Rotation = InRotation;
+	}
+
+	FItemSnapshot(const FVector& InLocation, const FRotator& InRotation, ECollisionEnabled::Type InCollisionEnabledType, ECollisionResponse InCollisionResponseChannel)
+	{
+		Location = InLocation;
+		Rotation = InRotation;
+		CollisionEnabledType = InCollisionEnabledType;
+		CollisionResponseChannel = InCollisionResponseChannel;
 	}
 };

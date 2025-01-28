@@ -21,6 +21,7 @@ protected:
 
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void StartRecording() override {};
 	virtual void RecordSnapshot() override;
 	virtual void PlaySnapshot(int32 Index) override;
 	virtual void StartPlaying() override;
