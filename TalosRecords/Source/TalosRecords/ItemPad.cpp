@@ -63,7 +63,7 @@ FString UItemPad::GetInteractionText()
 	return CurrentItem->GetInteractionText();
 }
 
-bool UItemPad::IsCompleted()
+bool UItemPad::IsCompleted() const
 {
 	return HasItemPlaced() || OverrideObjectiveCompleted;
 }

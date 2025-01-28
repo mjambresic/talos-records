@@ -28,17 +28,17 @@ public:
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 	virtual FString GetInteractionText() override;	
-	virtual bool IsCompleted() override;
 	virtual void StartRecording() override;
 	virtual void RecordSnapshot() override;
 	virtual void PlaySnapshot(int32 Index) override;
 	virtual void StartPlaying() override;
 	virtual void StopPlaying() override;
 	void ResetToPreRecordingState();
+	bool HasItemPlaced() const;
 
 	UFUNCTION(BlueprintCallable)
-	bool HasItemPlaced() const;
-	
+	virtual bool IsCompleted() const override;
+
 	UFUNCTION(BlueprintCallable)
 	void SetItemSocket(USceneComponent* ItemSocketSceneComponent);
 	
