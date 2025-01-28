@@ -40,11 +40,15 @@ public:
 	virtual bool IsCompleted() const override;
 
 	UFUNCTION(BlueprintCallable)
+	virtual void SetActivatedByPlayer(bool Activated);
+
+	UFUNCTION(BlueprintCallable)
 	void SetItemSocket(USceneComponent* ItemSocketSceneComponent);
 	
 private:
 	TArray<FItemPadSnapshot> Snapshots;
 	bool OverrideObjectiveCompleted = false;
+	bool ActivatedByPlayer = false;
 	FItemPadSnapshot PreRecordingSnapshot;
 	USceneComponent* ItemSocket;
 	UItem* CurrentItem;

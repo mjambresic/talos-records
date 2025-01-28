@@ -65,7 +65,12 @@ FString UItemPad::GetInteractionText()
 
 bool UItemPad::IsCompleted() const
 {
-	return HasItemPlaced() || OverrideObjectiveCompleted;
+	return HasItemPlaced() || ActivatedByPlayer || OverrideObjectiveCompleted;
+}
+
+void UItemPad::SetActivatedByPlayer(bool Activated)
+{
+	ActivatedByPlayer = Activated;
 }
 
 void UItemPad::StartRecording()
@@ -79,7 +84,7 @@ void UItemPad::RecordSnapshot()
 	(
 		FItemPadSnapshot
 		(
-			HasItemPlaced()
+			IsCompleted()
 		)
 	);
 }
