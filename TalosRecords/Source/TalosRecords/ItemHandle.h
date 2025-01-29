@@ -15,6 +15,8 @@ class TALOSRECORDS_API UItemHandle : public USceneComponent
 	const FString DROP_INTERACTION_TEXT = "Drop";
 	const FString PLACE_INTERACTION_TEXT = "Place";
 	const FName PLACING_ENABLED_TAG = "CanHoldItem";
+	const float NO_OFFSET = 0.0f;
+	const int VERTICAL_TRACE_COUNT_TO_STEPS_MINUEND = 1;
 	
 	UItem* CurrentItem;
 	UItemPad* CurrentItemPad;
@@ -27,6 +29,12 @@ class TALOSRECORDS_API UItemHandle : public USceneComponent
 	
 	UPROPERTY(EditAnywhere)
 	float PlacingDistance = 400;
+
+	UPROPERTY(EditAnywhere)
+	float VerticalTraceCount = 5;
+
+	UPROPERTY(EditAnywhere)
+	bool DebugEnabled = false;
 
 public:	
 	UItemHandle();
@@ -52,7 +60,10 @@ private:
 	void SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const;
 	void PlaceItem();
 	void ResolveItemPlacingTrace();
+	bool TryLineTrace(FHitResult& HitResult, AActor*& HitActor, UWorld* World, FVector StartPoint, FVector EndPoint, bool& HitSomething);
 	bool TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActor*& HitActor);
+	bool TryHitEligibleItemHolderWithVerticalTraces(FHitResult& HitResult, AActor*& HitActor, UWorld* World, const FVector& MainTraceStartPoint, const FVector&
+	                                                MainTraceEndPoint, bool& MainTraceHitSomething);
 	bool TryResolveItemPlacingOnPad(const AActor* Actor);
 	void ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult);
 	void UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const;

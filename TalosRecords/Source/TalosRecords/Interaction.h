@@ -42,7 +42,7 @@ private:
 	float InteractionRadius = 50;
 	
 	UPROPERTY(EditAnywhere)
-	float DebugEnabled = true;
+	bool DebugEnabled = true;
 	
 	UPROPERTY(EditAnywhere)
 	float ItemHoldDistance = 150;
