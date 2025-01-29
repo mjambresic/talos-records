@@ -46,9 +46,9 @@ bool UItemHandle::TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActo
 	UWorld* World = GetWorld();
 	FVector TraceStartPoint = Camera->GetComponentLocation();
 	FVector TraceEndPoint = TraceStartPoint + Camera->GetForwardVector() * PlacingDistance;
-
+	
 	DrawDebugLine(World, TraceStartPoint, TraceEndPoint, FColor::Blue, false);
-	World->LineTraceSingleByChannel(HitResult, TraceStartPoint, TraceEndPoint, ECC_GameTraceChannel2);
+	bool MainTraceHit = World->LineTraceSingleByChannel(HitResult, TraceStartPoint, TraceEndPoint, ECC_GameTraceChannel2);
 	HitActor = HitResult.GetActor();
 	CanPlaceItem = HitActor != nullptr && HitActor->Tags.Contains(PLACING_ENABLED_TAG);
 
@@ -57,13 +57,15 @@ bool UItemHandle::TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActo
 		return true;
 	}
 
+	FVector AdditionalTraceBlockPoint = MainTraceHit ? HitResult.Location : TraceEndPoint;
+
 	// Second Level of Tracing, if first one is not successful. Traces n lines from the main trace line downwards.
-	int AdditionalTraceCount = 3;
-	FVector StepVector = (TraceStartPoint - TraceEndPoint) / (AdditionalTraceCount - 1); // Reverse the order
+	int AdditionalTraceCount = 5;
+	FVector StepVector = (TraceStartPoint - AdditionalTraceBlockPoint) / (AdditionalTraceCount - 1); // Reverse the order
 
 	for (int i = 0; i < AdditionalTraceCount; i++)
 	{
-		FVector StartPoint = TraceEndPoint + StepVector * i;
+		FVector StartPoint = AdditionalTraceBlockPoint + StepVector * i;
 		FVector EndPoint = StartPoint + FVector(0.0f, 0.0f, -PlacingDistance);
 		World->LineTraceSingleByChannel(HitResult, StartPoint, EndPoint, ECC_GameTraceChannel2);
 		HitActor = HitResult.GetActor();
