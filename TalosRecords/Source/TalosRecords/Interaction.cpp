@@ -104,7 +104,6 @@ void UInteraction::OnPrimaryActionPressed() const
 void UInteraction::DrawDebug(const FVector& StartPoint, const FVector& EndPoint) const
 {
 	DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Red);
-	DrawDebugSphere( GetWorld(), StartPoint, InteractionRadius, 10, FColor::Red);
 	DrawDebugSphere( GetWorld(), EndPoint, InteractionRadius, 10, FColor::Red);
 }
 
