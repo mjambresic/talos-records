@@ -23,12 +23,11 @@ void UItemHandle::ResolveItemPlacingTrace()
 	if (HasItem())
 	{
 		FHitResult HitResult;
-		CanPlaceItem = ItemPlacingTrace(HitResult);
-		AActor* HitActor = HitResult.GetActor();
+		AActor* HitActor;
 
-		if (TryCheckIfActorIsTaggedToHoldItem(HitActor))
+		if (TryGetEligibleItemHolder(HitResult, HitActor))
 		{
-			if (TryResolveVisualizationOnPad(HitActor))
+			if (TryResolveItemPlacingOnPad(HitActor))
 			{
 				return;
 			}
@@ -41,21 +40,17 @@ void UItemHandle::ResolveItemPlacingTrace()
 	}
 }
 
-bool UItemHandle::ItemPlacingTrace(FHitResult& HitResult) const
+bool UItemHandle::TryGetEligibleItemHolder(FHitResult& HitResult, AActor*& HitActor)
 {
 	FVector PlacingStartPoint = Camera->GetComponentLocation();
 	FVector PlacingEndPoint = PlacingStartPoint + Camera->GetForwardVector() * PlacingDistance;
-	return GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
-}
-
-bool UItemHandle::TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor)
-{
-	// TODO: Replace tag with custom tag system, component?
-	CanPlaceItem = CanPlaceItem && Actor != nullptr && Actor->Tags.Contains(PLACING_ENABLED_TAG);
+	GetWorld()->LineTraceSingleByChannel(HitResult, PlacingStartPoint, PlacingEndPoint, ECC_GameTraceChannel2);
+	HitActor = HitResult.GetActor();
+	CanPlaceItem = HitActor != nullptr && HitActor->Tags.Contains(PLACING_ENABLED_TAG); // TODO: Replace tag with custom tag system, component?
 	return CanPlaceItem;
 }
 
-bool UItemHandle::TryResolveVisualizationOnPad(const AActor* Actor)
+bool UItemHandle::TryResolveItemPlacingOnPad(const AActor* Actor)
 {
 	CurrentItemPad = Actor->FindComponentByClass<UItemPad>();
 	if (CurrentItemPad != nullptr)
