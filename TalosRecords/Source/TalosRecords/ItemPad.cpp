@@ -1,5 +1,4 @@
 #include "ItemPad.h"
-
 #include "ItemHandle.h"
 
 UItemPad::UItemPad()
@@ -34,12 +33,7 @@ FRotator UItemPad::GetSocketRotation() const
 
 bool UItemPad::CanPlaceItem() const
 {
-	return !HasItemPlaced();
-}
-
-bool UItemPad::CanTakeItem() const
-{
-	return HasItemPlaced();
+	return !HoldsItem();
 }
 
 void UItemPad::PlaceItem(UItem* Item)
@@ -55,7 +49,7 @@ void UItemPad::Interact(UItemHandle* ItemHandle)
 
 bool UItemPad::Interactable(UItemHandle* ItemHandle)
 {
-	return HasItemPlaced();
+	return HoldsItem();
 }
 
 FString UItemPad::GetInteractionText()
@@ -63,9 +57,9 @@ FString UItemPad::GetInteractionText()
 	return CurrentItem->GetInteractionText();
 }
 
-bool UItemPad::IsCompleted() const
+bool UItemPad::GetObjectiveCompleted() const
 {
-	return HasItemPlaced() || ActivatedByPlayer || OverrideObjectiveCompleted;
+	return HoldsItem() || ActivatedByPlayer || OverrideObjectiveCompleted;
 }
 
 void UItemPad::SetActivatedByPlayer(bool Activated)
@@ -84,7 +78,7 @@ void UItemPad::RecordSnapshot()
 	(
 		FItemPadSnapshot
 		(
-			IsCompleted()
+			GetObjectiveCompleted()
 		)
 	);
 }
@@ -110,7 +104,7 @@ void UItemPad::ResetToPreRecordingState()
 	CurrentItem = PreRecordingSnapshot.CurrentItem;
 }
 
-bool UItemPad::HasItemPlaced() const
+bool UItemPad::HoldsItem() const
 {
 	return CurrentItem != nullptr;
 }

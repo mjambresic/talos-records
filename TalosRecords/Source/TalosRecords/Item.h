@@ -12,13 +12,20 @@ class TALOSRECORDS_API UItem : public UActorComponent, public IInteractable, pub
 {
 	GENERATED_BODY()
 
+	USceneComponent* PlacementVisualizer;
+	USceneComponent* RecordingVisualizer;
+	UShapeComponent* Collider;
+	FItemSnapshot PreRecordingSnapshot;
+	TArray<FItemSnapshot> Snapshots;
+	
+	UPROPERTY(EditAnywhere)
+	FString InteractionText = "Take Item";
+
+	UPROPERTY(EditAnywhere)
+	float BaseOffset = 0.0f;
+
 public:	
 	UItem();
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void SetPlacementVisualizerLocation(FVector Location) const;
 	void SetPlacementVisualizerRotation(const FRotator& Rotation) const;
@@ -33,8 +40,7 @@ public:
 	virtual void PlaySnapshot(int32 Index) override;
 	virtual void StartPlaying() override;
 	virtual void StopPlaying() override;
-	void ResetToPreRecordingState() const;
-
+	
 	UFUNCTION(BlueprintCallable)
 	void SetPlacementVisualizerVisible(bool Visible) const;
 
@@ -50,16 +56,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetCollider(UShapeComponent* ShapeCollider);
 
-private:
-	USceneComponent* PlacementVisualizer;
-	USceneComponent* RecordingVisualizer;
-	UShapeComponent* Collider;
-	FItemSnapshot PreRecordingSnapshot;
-	TArray<FItemSnapshot> Snapshots;
-	
-	UPROPERTY(EditAnywhere)
-	FString InteractionText = "Take Item";
+protected:
+	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere)
-	float BaseOffset = 0.0f;
+private:
+	void ResetToPreRecordingState() const;
 };

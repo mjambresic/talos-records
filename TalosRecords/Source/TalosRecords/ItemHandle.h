@@ -7,33 +7,33 @@
 #include "ItemPad.h"
 #include "ItemHandle.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TALOSRECORDS_API UItemHandle : public USceneComponent
 {
 	GENERATED_BODY()
+	
+	const FString DROP_INTERACTION_TEXT = "Drop";
+	const FString PLACE_INTERACTION_TEXT = "Place";
+	const FName PLACING_ENABLED_TAG = "CanHoldItem";
+	
+	UItem* CurrentItem;
+	UItemPad* CurrentItemPad;
+	UCameraComponent* Camera;
+	FString ItemInteractionText;
+	bool CanPlaceItem;
+
+	UPROPERTY(EditAnywhere)
+	FVector ItemRotationOffset = FVector(0, 0, 0);
+	
+	UPROPERTY(EditAnywhere)
+	float PlacingDistance = 400;
 
 public:	
 	UItemHandle();
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void TakeItem(UItem* Item);
-	void HandleItemTransform() const;
-	void HandleItemRotation() const;
 	bool HasItem() const;
-	void SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const;
-	void PlaceItem();
-	void ResolveItemPlacingTrace();
-	bool ItemPlacingTrace(FHitResult& HitResult) const;
-	bool TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor);
-	bool TryResolveVisualizationOnPad(const AActor* Actor);
-	void ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult);
-	void UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const;
-
+	
 	UFUNCTION(BlueprintCallable)
 	bool GetCanPlaceItem() const;
 
@@ -43,16 +43,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PlaceItemToEligiblePlace();
 
-private:
-	UItem* CurrentItem;
-	UItemPad* CurrentItemPad;
-	UCameraComponent* Camera;
-	FString ItemInteractionText;
-	bool CanPlaceItem;
-	
-	UPROPERTY(EditAnywhere)
-	FVector ItemRotationOffset = FVector(0, 0, 0);
+protected:
+	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere)
-	float PlacingDistance = 400;
+private:
+	void HandleItemTransform() const;
+	void HandleItemRotation() const;
+	void SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const;
+	void PlaceItem();
+	void ResolveItemPlacingTrace();
+	bool ItemPlacingTrace(FHitResult& HitResult) const;
+	bool TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor);
+	bool TryResolveVisualizationOnPad(const AActor* Actor);
+	void ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult);
+	void UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const;
 };

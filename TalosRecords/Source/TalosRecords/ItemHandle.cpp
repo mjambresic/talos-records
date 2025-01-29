@@ -1,8 +1,5 @@
 #include "ItemHandle.h"
 
-static const FString DROP_INTERACTION_TEXT = TEXT("Drop");
-static const FString PLACE_INTERACTION_TEXT = TEXT("Place");
-
 UItemHandle::UItemHandle()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -54,7 +51,7 @@ bool UItemHandle::ItemPlacingTrace(FHitResult& HitResult) const
 bool UItemHandle::TryCheckIfActorIsTaggedToHoldItem(const AActor* Actor)
 {
 	// TODO: Replace tag with custom tag system, component?
-	CanPlaceItem = CanPlaceItem && Actor != nullptr && Actor->Tags.Contains(FName("CanHoldItem"));
+	CanPlaceItem = CanPlaceItem && Actor != nullptr && Actor->Tags.Contains(PLACING_ENABLED_TAG);
 	return CanPlaceItem;
 }
 

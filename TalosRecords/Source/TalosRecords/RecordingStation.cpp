@@ -1,14 +1,5 @@
 #include "RecordingStation.h"
 
-const FString RECORD_INTERACTION_TEXT = TEXT("Record");
-const FString PLAY_INTERACTION_TEXT = TEXT("Play");
-const FString STOP_INTERACTION_TEXT = TEXT("Stop");
-constexpr float RESET_TIME = 0.0f;
-constexpr float SECONDS_PER_MINUTE_FLOAT = 60.0f;
-constexpr int32 SECONDS_PER_MINUTE = 60; 
-constexpr int32 MILLISECONDS_PER_SECOND = 1000;
-constexpr int32 RESET_SNAPSHOT_COUNT = 0;
-
 URecordingStation::URecordingStation()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -19,7 +10,7 @@ void URecordingStation::BeginPlay()
 	Super::BeginPlay();
 }
 
-// Remember that this component has custom Tick Interval set, to limit snapshotting performance impact.
+// Remember that this component may have custom Tick Interval set, to limit snapshotting performance impact.
 void URecordingStation::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);

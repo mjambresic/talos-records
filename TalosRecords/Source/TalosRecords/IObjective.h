@@ -15,5 +15,5 @@ class TALOSRECORDS_API IObjective
 	GENERATED_BODY()
 
 public:
-	virtual bool IsCompleted() const = 0;
+	virtual bool GetObjectiveCompleted() const = 0;
 };

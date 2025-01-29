@@ -11,15 +11,16 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TALOSRECORDS_API UPlayerCharacter : public UActorComponent, public IRecordable
 {
 	GENERATED_BODY()
+	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnAnimationValueUpdate, FVector, Velocity, float, GroundSpeed, bool, ShouldMove, bool, IsFalling);
+	const float GROUND_SPEED_THRESHOLD = 3.0f;
+
+	USceneComponent* ThirdPersonPlayerMesh;
+	UCharacterMovementComponent* MovementComponent;
+	TArray<FPlayerCharacterSnapshot> Snapshots;
 
 public:	
 	UPlayerCharacter();
-
-protected:
-	virtual void BeginPlay() override;
-
-public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void StartRecording() override {};
 	virtual void RecordSnapshot() override;
@@ -36,8 +37,6 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAnimationValueUpdate OnPlaySnapshotAnimationValues;
 
-private:
-	USceneComponent* ThirdPersonPlayerMesh;
-	UCharacterMovementComponent* MovementComponent;
-	TArray<FPlayerCharacterSnapshot> Snapshots;
+protected:
+	virtual void BeginPlay() override;
 };

@@ -1,7 +1,5 @@
 #include "PlayerCharacter.h"
 
-constexpr float GROUND_SPEED_THRESHOLD = 3.0f;
-
 UPlayerCharacter::UPlayerCharacter()
 {
 	PrimaryComponentTick.bCanEverTick = true;

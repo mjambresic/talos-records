@@ -20,7 +20,7 @@ void UPuzzle::ResolveObjectives()
 {
 	for (const TScriptInterface<IObjective>& Objective : Objectives)
 	{
-		if (!Objective->IsCompleted())
+		if (!Objective->GetObjectiveCompleted())
 		{
 			Gate->SetOpen(false);
 			return;
@@ -50,8 +50,6 @@ void UPuzzle::ResolveExit()
 	
 	Entered = false;
 	PuzzleExited.Broadcast();
-
-	// TODO: Reset puzzle on exit.
 }
 
 void UPuzzle::SetPuzzleGate(UPuzzleGate* PuzzleGate)
