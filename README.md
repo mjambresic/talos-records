@@ -9,11 +9,8 @@
 <br>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/7e836e09-0f9d-4348-a2b9-061822547e76" style="width: 48%; margin-right: 2%;" />
-  <img src="https://github.com/user-attachments/assets/7e836e09-0f9d-4348-a2b9-061822547e76" style="width: 48%;" />
+  <img src="https://github.com/user-attachments/assets/02886080-ce39-4db7-b225-f66f619ed87d"/>
 </p>
-
-<br>
 
 # Features
 The prototype's key features are primarily developed in C++ and designed for extensibility.
