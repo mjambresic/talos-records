@@ -46,9 +46,10 @@ bool UItemHandle::TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActo
 	UWorld* World = GetWorld();
 	FVector TraceStartPoint = Camera->GetComponentLocation();
 	FVector TraceEndPoint = TraceStartPoint + Camera->GetForwardVector() * PlacingDistance;
+	FVector TraceEndPointMinusItemRadius = TraceStartPoint + Camera->GetForwardVector() * (PlacingDistance - CurrentItem->GetItemRadius());
 
 	bool MainTraceHitSomething = false;
-	if (TryLineTrace(HitResult, HitActor, World, TraceStartPoint, TraceEndPoint, MainTraceHitSomething))
+	if (TryLineTrace(HitResult, HitActor, World, TraceStartPoint, TraceEndPointMinusItemRadius, MainTraceHitSomething))
 	{
 		return true;
 	}
