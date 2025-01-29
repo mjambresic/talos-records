@@ -16,10 +16,10 @@ void UItemHandle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	HandleItemTransform();
-	ResolveItemPlacingTrace();
+	ResolveItemPlacing();
 }
 
-void UItemHandle::ResolveItemPlacingTrace()
+void UItemHandle::ResolveItemPlacing()
 {
 	if (HasItem())
 	{
@@ -43,6 +43,7 @@ void UItemHandle::ResolveItemPlacingTrace()
 
 bool UItemHandle::TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActor*& HitActor)
 {
+	// Trying to find a place where item can be dropped or placed in the world.
 	UWorld* World = GetWorld();
 	FVector TraceStartPoint = Camera->GetComponentLocation();
 	FVector TraceEndPoint = TraceStartPoint + Camera->GetForwardVector() * PlacingDistance;
@@ -59,6 +60,7 @@ bool UItemHandle::TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActo
 
 bool UItemHandle::TryHitEligibleItemHolderWithVerticalTraces(FHitResult& HitResult, AActor*& HitActor, UWorld* World, const FVector& MainTraceStartPoint, const FVector& MainTraceEndPoint, bool& MainTraceHitSomething)
 {
+	// Additional traces that try to better position item if main trace is without hit or hits wall and similar objects.
 	FVector VerticalTraceBlockPoint = MainTraceHitSomething ? HitResult.Location : MainTraceEndPoint;
 	float Distance = FVector::Dist(VerticalTraceBlockPoint, MainTraceStartPoint) - CurrentItem->GetItemRadius();
 	FVector Direction = (VerticalTraceBlockPoint - MainTraceStartPoint).GetSafeNormal();
@@ -81,6 +83,7 @@ bool UItemHandle::TryHitEligibleItemHolderWithVerticalTraces(FHitResult& HitResu
 
 bool UItemHandle::TryLineTrace(FHitResult& HitResult, AActor*& HitActor, UWorld* World, FVector StartPoint, FVector EndPoint, bool& HitSomething)
 {
+	// Item Handle line trace that mainly helps to find an item placing spot.
 	HitSomething = World->LineTraceSingleByChannel(HitResult, StartPoint, EndPoint, ECC_GameTraceChannel2);
 	HitActor = HitResult.GetActor();
 	CanPlaceItem = HitActor != nullptr && HitActor->Tags.Contains(PLACING_ENABLED_TAG);
@@ -95,6 +98,7 @@ bool UItemHandle::TryLineTrace(FHitResult& HitResult, AActor*& HitActor, UWorld*
 
 bool UItemHandle::TryResolveItemPlacingOnPad(const AActor* Actor)
 {
+	// Checks if item can be placed on pad, based on that it returns a result.
 	CurrentItemPad = Actor->FindComponentByClass<UItemPad>();
 	if (CurrentItemPad != nullptr)
 	{

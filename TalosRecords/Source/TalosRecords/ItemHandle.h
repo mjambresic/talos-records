@@ -59,7 +59,7 @@ private:
 	void HandleItemRotation() const;
 	void SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const;
 	void PlaceItem();
-	void ResolveItemPlacingTrace();
+	void ResolveItemPlacing();
 	bool TryLineTrace(FHitResult& HitResult, AActor*& HitActor, UWorld* World, FVector StartPoint, FVector EndPoint, bool& HitSomething);
 	bool TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActor*& HitActor);
 	bool TryHitEligibleItemHolderWithVerticalTraces(FHitResult& HitResult, AActor*& HitActor, UWorld* World, const FVector& MainTraceStartPoint, const FVector&
