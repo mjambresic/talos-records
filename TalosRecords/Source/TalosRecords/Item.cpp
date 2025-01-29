@@ -50,6 +50,11 @@ void UItem::SetInteractionCollisionResponse(const ECollisionResponse Response) c
 	Collider->SetCollisionResponseToChannel(ECC_GameTraceChannel2, Response);
 }
 
+float UItem::GetItemRadius() const
+{
+	return Radius;
+}
+
 bool UItem::Interactable(UItemHandle* ItemHandle)
 {
 	return !ItemHandle->HasItem();

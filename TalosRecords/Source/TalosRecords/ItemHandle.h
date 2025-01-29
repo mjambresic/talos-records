@@ -31,7 +31,7 @@ class TALOSRECORDS_API UItemHandle : public USceneComponent
 	float PlacingDistance = 400;
 
 	UPROPERTY(EditAnywhere)
-	float VerticalTraceCount = 5;
+	float VerticalTraceCount = 15;
 
 	UPROPERTY(EditAnywhere)
 	bool DebugEnabled = false;

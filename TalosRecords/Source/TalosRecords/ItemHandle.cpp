@@ -59,6 +59,9 @@ bool UItemHandle::TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActo
 bool UItemHandle::TryHitEligibleItemHolderWithVerticalTraces(FHitResult& HitResult, AActor*& HitActor, UWorld* World, const FVector& MainTraceStartPoint, const FVector& MainTraceEndPoint, bool& MainTraceHitSomething)
 {
 	FVector VerticalTraceBlockPoint = MainTraceHitSomething ? HitResult.Location : MainTraceEndPoint;
+	float Distance = FVector::Dist(VerticalTraceBlockPoint, MainTraceStartPoint) - CurrentItem->GetItemRadius();
+	FVector Direction = (VerticalTraceBlockPoint - MainTraceStartPoint).GetSafeNormal();
+	VerticalTraceBlockPoint = MainTraceStartPoint + Direction * Distance;
 	FVector StepVector = (MainTraceStartPoint - VerticalTraceBlockPoint) / (VerticalTraceCount - VERTICAL_TRACE_COUNT_TO_STEPS_MINUEND);
 
 	for (int i = 0; i < VerticalTraceCount; i++)

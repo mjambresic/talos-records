@@ -24,6 +24,9 @@ class TALOSRECORDS_API UItem : public UActorComponent, public IInteractable, pub
 	UPROPERTY(EditAnywhere)
 	float BaseOffset = 0.0f;
 
+	UPROPERTY(EditAnywhere)
+	float Radius = 60.0f;
+
 public:	
 	UItem();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -32,6 +35,7 @@ public:
 	void SetItemTransformToVisualizerTransform() const;
 	void SetCollisionEnabled(ECollisionEnabled::Type CollisionType) const;
 	void SetInteractionCollisionResponse(ECollisionResponse Response) const;
+	float GetItemRadius() const;
 	virtual void Interact(UItemHandle* ItemHandle) override;
 	virtual bool Interactable(UItemHandle* ItemHandle) override;
 	virtual FString GetInteractionText() override;
