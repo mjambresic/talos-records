@@ -52,7 +52,7 @@ private:
 	void SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const;
 	void PlaceItem();
 	void ResolveItemPlacingTrace();
-	bool TryGetEligibleItemHolder(FHitResult& HitResult, AActor*& HitActor);
+	bool TryHitEligibleItemHolderWithTrace(FHitResult& HitResult, AActor*& HitActor);
 	bool TryResolveItemPlacingOnPad(const AActor* Actor);
 	void ResolveItemPlacingOnNonPadSurface(const FHitResult& HitResult);
 	void UpdatePlacementVisualizer(bool Visible, const FVector& Location, const FRotator& Rotation) const;
