@@ -32,6 +32,12 @@ The prototype's key features are primarily developed in C++ and designed for ext
 >[Terminal.cpp](TalosRecords/Source/TalosRecords/Terminal.cpp)
 
 ## Player Interaction
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/afdf3fd2-5a7e-4567-ae7d-4834b4d0bc7a" style="width: 48%; margin-right: 2%;" />
+  <img src="https://github.com/user-attachments/assets/56433ee7-1d93-481c-a063-f5a8235bc58d" style="width: 48%;" />
+</p>
+
 >Player interaction with the world.  
 >[Interaction.h](TalosRecords/Source/TalosRecords/Interaction.h)  
 >[Interaction.cpp](TalosRecords/Source/TalosRecords/Interaction.cpp)
