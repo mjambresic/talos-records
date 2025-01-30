@@ -14,4 +14,4 @@
 >[License](https://sketchfab.com/3d-models/mysterious-cube-4a82431d596148bc825d52f6e5dc276f)
 
 >TV Screen Error Glitch Background - AwwCube   
->[License](https://www.textures4photoshop.com/tex/about.aspx#license)
+>[License](https://www.textures4photoshop.com/tex/abstract/tv-screen-error-glitch-background.aspx)
