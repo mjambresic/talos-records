@@ -88,8 +88,8 @@ Unreal Engine: v5.5.1
 <br>
 
 ## License
-This project is licensed under the terms of the [License](LICENSE).
+This project is licensed under the terms of the [MIT License](LICENSE).
 
-Copyright © Matija Jambresic
+Copyright © 2025 Matija Jambresic
 
 For information about third-party assets used and their respective licenses, please see the [Third Party](THIRDPARTY.md) file.
