@@ -84,3 +84,12 @@ Unreal Engine: v5.5.1
 >Player functionality.  
 >[PlayerCharacter.h](TalosRecords/Source/TalosRecords/PlayerCharacter.h)  
 >[PlayerCharacter.cpp](TalosRecords/Source/TalosRecords/PlayerCharacter.cpp)
+
+<br>
+
+## License
+This project is licensed under the terms of the [License](LICENSE).
+
+Copyright © Matija Jambresic
+
+For information about third-party assets used and their respective licenses, please see the [Third Party](THIRDPARTY.md) file.
