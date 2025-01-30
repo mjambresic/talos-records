@@ -26,16 +26,16 @@ Unreal Engine: v5.5.1
   <img src="https://github.com/user-attachments/assets/f2984eef-aab0-49ef-9937-c0a081e92a86" style="width: 48%;" />
 </p>
 
->Player interaction with the world.  
->[Interaction.h](TalosRecords/Source/TalosRecords/Interaction.h)  
->[Interaction.cpp](TalosRecords/Source/TalosRecords/Interaction.cpp)
+>[Interaction.h](TalosRecords/Source/TalosRecords/Interaction.h) ---
+>[Interaction.cpp](TalosRecords/Source/TalosRecords/Interaction.cpp)  
+>Handles basic player interaction with the world. Casts a line trace to detect objects available for interaction and manages interaction input.  
 
->Item interaction with world.  
->[ItemHandle.h](TalosRecords/Source/TalosRecords/ItemHandle.h)  
->[ItemHandle.cpp](TalosRecords/Source/TalosRecords/ItemHandle.cpp)
+>[ItemHandle.h](TalosRecords/Source/TalosRecords/ItemHandle.h) ---
+>[ItemHandle.cpp](TalosRecords/Source/TalosRecords/ItemHandle.cpp)  
+>A scene component that picks up or puts down items. It handles interaction while items are in the player's hand and resolves placing or dropping them.
 
->An interface that implements basic interaction methods.  
->[IInteractable.h](TalosRecords/Source/TalosRecords/IInteractable.h)
+>[IInteractable.h](TalosRecords/Source/TalosRecords/IInteractable.h)  
+>An interface that defines basic interaction methods. Objects implementing this interface can interact with the player in a specific way.
 
 <br>
 
