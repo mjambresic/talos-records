@@ -1,5 +1,5 @@
 <h1 align="center">
-    <b>The Talos Records</b>
+    <b>🎞️ The Talos Records 🎞️</b>
 </h1>
 
 <p align="center">
@@ -9,6 +9,14 @@
 <p align="center">
     A small-scale prototype inspired by the 2014 game, The Talos Principle. It focuses on a recording mechanic and player interaction with the world, aiming to recapture the gameplay feel of the original game.
 </p>
+
+<br>
+
+## Project Details
+Author: Matija Jambresic <br>
+Start Date: 20th January 2025 <br>
+Duration: ~ 2 weeks <br>
+Unreal Engine: v5.5.1
 
 <br>
 
@@ -31,7 +39,7 @@
 
 <br>
 
-## Recording System
+## Recording System 🎥
 >Recording Player moves.  
 >[RecordingStation.h](TalosRecords/Source/TalosRecords/RecordingStation.h)  
 >[RecordingStation.cpp](TalosRecords/Source/TalosRecords/RecordingStation.cpp)
@@ -40,8 +48,8 @@
 >[IRecordable.cpp](TalosRecords/Source/TalosRecords/IRecordable.h)
 
 >Some data structures that are used to snapshot recordable objects.  
->[ItemSnapshot.h](TalosRecords/Source/TalosRecords/Item.h)
->[PlayerCaharacterSnapshot.h](TalosRecords/Source/TalosRecords/Item.h)
+>[ItemSnapshot.h](TalosRecords/Source/TalosRecords/Item.h)  
+>[PlayerCaharacterSnapshot.h](TalosRecords/Source/TalosRecords/Item.h)  
 >[ItemPadSnapshot.h](TalosRecords/Source/TalosRecords/Item.h)
 
 <br>
@@ -60,7 +68,7 @@
 
 <br>
 
-## Game Objects & Player Character
+## Game Objects & Player
 >Base class of an item that player can interact with and place into the world.  
 >[Item.h](TalosRecords/Source/TalosRecords/Item.h)  
 >[Item.cpp](TalosRecords/Source/TalosRecords/Item.cpp)
