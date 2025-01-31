@@ -202,6 +202,7 @@ void UItemHandle::PlaceItem()
 	CurrentItem->SetPlacementVisualizerVisible(false);
 	CurrentItem->SetItemTransformToVisualizerTransform();
 	CurrentItem = nullptr;
+	OnItemPlace.Broadcast();
 }
 
 void UItemHandle::SetItemPhysicsProperties(ECollisionEnabled::Type CollisionType) const

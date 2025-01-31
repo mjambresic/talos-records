@@ -11,7 +11,8 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TALOSRECORDS_API UItemHandle : public USceneComponent
 {
 	GENERATED_BODY()
-	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnItemPlace);
+
 	const FString DROP_INTERACTION_TEXT = "Drop";
 	const FString PLACE_INTERACTION_TEXT = "Place";
 	const FName PLACING_ENABLED_TAG = "CanHoldItem";
@@ -23,6 +24,9 @@ class TALOSRECORDS_API UItemHandle : public USceneComponent
 	UCameraComponent* Camera;
 	FString ItemInteractionText;
 	bool CanPlaceItem;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnItemPlace OnItemPlace;
 
 	UPROPERTY(EditAnywhere)
 	FVector ItemRotationOffset = FVector(0, 0, 0);
