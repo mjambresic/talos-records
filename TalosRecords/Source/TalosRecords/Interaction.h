@@ -8,7 +8,26 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class TALOSRECORDS_API UInteraction : public USceneComponent
 {
 	GENERATED_BODY()
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteract);
 	const int32 ALLOWED_INTERACTABLE_COMPONENT_COUNT = 1;
+
+	IInteractable* InteractableObject;
+	UItemHandle* ItemHandle;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnInteract OnInteract;
+	
+	UPROPERTY(EditAnywhere)
+	float InteractionDistance = 200;
+	
+	UPROPERTY(EditAnywhere)
+	float InteractionRadius = 50;
+	
+	UPROPERTY(EditAnywhere)
+	bool DebugEnabled = true;
+	
+	UPROPERTY(EditAnywhere)
+	float ItemHoldDistance = 150;
 
 public:	
 	UInteraction();
@@ -30,20 +49,4 @@ private:
 	
 	UFUNCTION(BlueprintCallable)
 	bool HasValidInteractableObject() const;
-
-	// PROPERTIES
-	IInteractable* InteractableObject;
-	UItemHandle* ItemHandle;
-	
-	UPROPERTY(EditAnywhere)
-	float InteractionDistance = 200;
-	
-	UPROPERTY(EditAnywhere)
-	float InteractionRadius = 50;
-	
-	UPROPERTY(EditAnywhere)
-	bool DebugEnabled = true;
-	
-	UPROPERTY(EditAnywhere)
-	float ItemHoldDistance = 150;
 };

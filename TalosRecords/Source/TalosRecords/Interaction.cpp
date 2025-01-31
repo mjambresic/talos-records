@@ -98,6 +98,7 @@ void UInteraction::OnPrimaryActionPressed() const
 	if (HasValidInteractableObject())
 	{
 		InteractableObject->Interact(ItemHandle);
+		OnInteract.Broadcast();
 	}
 }
 
