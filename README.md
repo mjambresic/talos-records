@@ -90,6 +90,13 @@ Unreal Engine: v5.5.1
 
 <br>
 
+## Blueprint functionality
+>The Blueprints functionality included in this project primarily enhances the prototype's appearance and completeness, but is not necessarily designed for extensibility.  
+  
+>One example is the typewriting effect for the Terminal widget. Since Blueprints don't support delays, I recommend rewriting this functionality in C++ for better compatibility and to reduce repetitive code.
+
+<br>
+
 ## License
 This project is licensed under the terms of the [MIT License](LICENSE).
 
