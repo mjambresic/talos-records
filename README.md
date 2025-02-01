@@ -93,3 +93,5 @@ This project is licensed under the terms of the [MIT License](LICENSE).
 Copyright © 2025 Matija Jambresic
 
 For information about third-party assets used and their respective licenses, please see the [Third Party](THIRDPARTY.md) file.
+
+In addition to the license file required by the MIT License, please include the Third Party file in all copies of this project.
