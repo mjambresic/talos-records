@@ -1,3 +1,5 @@
+# 3D Assets
+
 >Stylized Egypt - AleksandrIvanov (Fab Standard License)   
 >[License](https://www.fab.com/listings/c935ca3e-dbb1-4b7d-a080-65de129c60bd)
 
@@ -15,3 +17,28 @@
 
 >TV Screen Error Glitch Background - AwwCube   
 >[License](https://www.textures4photoshop.com/tex/abstract/vhs-glitch-effect-photoshop-texture-overlay.aspx)
+
+# Audio Assets
+
+>SW_Ambients - The Legend of Narmer by WombatNoisesAudio (CC BY 3.0)  
+>[License](https://www.youtube.com/watch?v=tyFvpDLqRiA)
+
+>SW_Click (Edited) - Mouse 2 Button Long Click by aphom000 (Creative Commons 0)  
+>[License](https://freesound.org/people/aphom000/sounds/687108/)
+
+>SW_Keyboard/Short/Short2/Long (Edited) - MWP Gaming Keyboard short by zajichavez (Creative Commons 0)  
+>[License](https://freesound.org/people/zajichavez/sounds/629619/)
+
+>SW_Place (Edited) - triangle boom by Tapepusher (Attribution NonCommercial 4.0)  
+>[License](https://freesound.org/people/Tapepusher/sounds/259876/)
+
+>SW_DigitalSkip/Short (Edited) - digital audio skip by jndigital (Creative Commons 0)  
+>[License](https://freesound.org/people/jndigital/sounds/711356/)
+
+>SW_Place (Edited) - QuintoC2R by ramjac (Attribution 4.0)  
+>[License](https://freesound.org/people/ramjac/sounds/21330/)
+
+>Sw_SigilCollected (Edited) - Victory Sound 1 by SilverIllusionist (Attribution 4.0)  
+>[License](https://freesound.org/people/SilverIllusionist/sounds/462250/)
+
+
