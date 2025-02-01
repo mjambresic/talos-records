@@ -41,9 +41,6 @@ Unreal Engine: v5.5.1
 <br>
 
 ## Recording System 🎥
-
-![sr1-1]()
-
 <p align="center">
   <img src="https://github.com/user-attachments/assets/88f9dbcb-4129-48c5-ae01-2597e9acf6cd" style="width: 48%; margin-right: 2%;" />
   <img src="https://github.com/user-attachments/assets/c3d62946-8992-4872-b585-3747a67a1226" style="width: 48%;" />
