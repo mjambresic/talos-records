@@ -3,8 +3,11 @@
 </h1>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/02886080-ce39-4db7-b225-f66f619ed87d"/>
+  <img src="https://github.com/user-attachments/assets/0919ca1e-48fc-465e-8b9c-ece2a49295e1"/>
+
+
 </p>
+
 
 <p align="center">
     A small-scale prototype inspired by the 2014 game, The Talos Principle. It focuses on a recording mechanic and player interaction with the world, aiming to recapture the gameplay feel of the original game.
