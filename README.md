@@ -17,7 +17,8 @@
 Author: Matija Jambresic <br>
 Start Date: 20th January 2025 <br>
 Duration: ~ 2 weeks <br>
-Unreal Engine: v5.5.1
+Unreal Engine: v5.5.1  
+[Gameplay video.](https://youtu.be/nRAnBNXDPjI)
 
 <br>
 
