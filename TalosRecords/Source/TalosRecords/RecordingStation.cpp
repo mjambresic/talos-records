@@ -33,10 +33,16 @@ void URecordingStation::ResolveRecording(float DeltaTime)
 {
 	AccumulatedRecordingTimeSeconds += DeltaTime;
 	SnapshotCount++;
-
+	
 	for (const TScriptInterface<IRecordable>& Recordable : Recordables)
 	{
 		Recordable->RecordSnapshot();
+	}
+
+	if (AccumulatedRecordingTimeSeconds > MAX_RECORDING_TIME_SECONDS)
+	{
+		StartPlaying();
+		OnStateChange.Broadcast(Recording);
 	}
 }
 
@@ -88,7 +94,7 @@ void URecordingStation::SwitchState()
 		StartRecording();
 	}
 
-	OnInteract.Broadcast(Recording);
+	OnStateChange.Broadcast(Recording);
 }
 
 void URecordingStation::StartRecording()

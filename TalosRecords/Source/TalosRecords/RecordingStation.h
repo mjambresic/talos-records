@@ -18,6 +18,7 @@ class TALOSRECORDS_API URecordingStation : public UActorComponent, public IInter
 	const FString STOP_INTERACTION_TEXT = "Stop";
 	const float RESET_TIME = 0.0f;
 	const float SECONDS_PER_MINUTE_FLOAT = 60.0f;
+	const float MAX_RECORDING_TIME_SECONDS = 300.0f;
 	const int32 SECONDS_PER_MINUTE = 60; 
 	const int32 MILLISECONDS_PER_SECOND = 1000;
 	const int32 RESET_SNAPSHOT_COUNT = 0;
@@ -28,9 +29,6 @@ class TALOSRECORDS_API URecordingStation : public UActorComponent, public IInter
 	int32 SnapshotCount = 0;
 	int32 PlaySnapshotCount = 0;
 	TArray<TScriptInterface<IRecordable>> Recordables;
-	
-	UPROPERTY(EditAnywhere)
-	float MaxRecordingTimeSeconds = 300;
 
 public:	
 	URecordingStation();
@@ -46,7 +44,7 @@ public:
 	FString GetFormattedAccumulatedTime() const;
 	
 	UPROPERTY(BlueprintAssignable)
-	FOnInteract OnInteract;
+	FOnInteract OnStateChange;
 
 	UFUNCTION(BlueprintCallable)
 	void AddRecordables(const TArray<TScriptInterface<IRecordable>>& RecordableArray);
