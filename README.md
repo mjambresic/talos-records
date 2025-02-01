@@ -45,15 +45,15 @@ Unreal Engine: v5.5.1
 ## Recording System 🎥
 >[RecordingStation.h](TalosRecords/Source/TalosRecords/RecordingStation.h) ---
 >[RecordingStation.cpp](TalosRecords/Source/TalosRecords/RecordingStation.cpp)  
->Recording Player moves. TODO rewrite
+>A game object with three states: idle, recording, and playing. Depending on its state, it either saves snapshots of the current referenced recordable objects or resimulates the previously snapshot ones.
 
 >[IRecordable.h](TalosRecords/Source/TalosRecords/IRecordable.h)   
->Recording Player moves.
+>An interface that allows objects to be referenced and participate in the recording system. It implements snapshotting and resimulation methods.
 
->[ItemSnapshot.h](TalosRecords/Source/TalosRecords/ItemSnapshot.h)  
->[PlayerCharacterSnapshot.h](TalosRecords/Source/TalosRecords/PlayerCharacterSnapshot.h)  
+>[ItemSnapshot.h](TalosRecords/Source/TalosRecords/ItemSnapshot.h), 
+>[PlayerCharacterSnapshot.h](TalosRecords/Source/TalosRecords/PlayerCharacterSnapshot.h), 
 >[ItemPadSnapshot.h](TalosRecords/Source/TalosRecords/ItemPadSnapshot.h)  
->Some data structures that are used to snapshot recordable objects. TODO rewrite
+>Data structures designed to snapshot specific recordable objects.
 
 <br>
 
