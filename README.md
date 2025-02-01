@@ -60,18 +60,18 @@ Unreal Engine: v5.5.1
 ## Puzzle
 >[Puzzle.h](TalosRecords/Source/TalosRecords/Puzzle.h) ---
 >[Puzzle.cpp](TalosRecords/Source/TalosRecords/Puzzle.cpp)  
->Script that references different components of a puzzle, tracking if objectives are completed.  TODO rewrite
+>An actor component that references different pieces of a puzzle, tracking the completion of objectives and ensuring objects behave as a cohesive whole.
 
 >[PuzzleGate.h](TalosRecords/Source/TalosRecords/PuzzleGate.h) ---
 >[PuzzleGate.cpp](TalosRecords/Source/TalosRecords/PuzzleGate.cpp)  
->Gates that are opened on objectives completed.  TODO rewrite
+>A game object that obstructs the player's way out of a puzzle. It has two states: open and closed, set based on objective completion.
 
 >[IObjective.h](TalosRecords/Source/TalosRecords/IObjective.h)  
->An interface that implements objective related methods..  TODO rewrite
+>An interface that defines specific objectives for different puzzle objects.
 
 <br>
 
-## Game Objects & Player
+## Other Game Objects & Player
 >[Item.h](TalosRecords/Source/TalosRecords/Item.h) ---
 >[Item.cpp](TalosRecords/Source/TalosRecords/Item.cpp)  
 >Base class of an item that player can interact with and place into the world.  TODO rewrite
