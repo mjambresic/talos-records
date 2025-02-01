@@ -4,8 +4,6 @@
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/0919ca1e-48fc-465e-8b9c-ece2a49295e1"/>
-
-
 </p>
 
 
@@ -43,6 +41,14 @@ Unreal Engine: v5.5.1
 <br>
 
 ## Recording System 🎥
+
+![sr1-1]()
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/88f9dbcb-4129-48c5-ae01-2597e9acf6cd" style="width: 48%; margin-right: 2%;" />
+  <img src="https://github.com/user-attachments/assets/c3d62946-8992-4872-b585-3747a67a1226" style="width: 48%;" />
+</p>
+
 >[RecordingStation.h](TalosRecords/Source/TalosRecords/RecordingStation.h) ---
 >[RecordingStation.cpp](TalosRecords/Source/TalosRecords/RecordingStation.cpp)  
 >A game object with three states: idle, recording, and playing. Depending on its state, it either saves snapshots of the current referenced recordable objects or resimulates the previously snapshot ones.
