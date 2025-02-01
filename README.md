@@ -43,50 +43,51 @@ Unreal Engine: v5.5.1
 <br>
 
 ## Recording System 🎥
->Recording Player moves.  
->[RecordingStation.h](TalosRecords/Source/TalosRecords/RecordingStation.h)  
->[RecordingStation.cpp](TalosRecords/Source/TalosRecords/RecordingStation.cpp)
+>[RecordingStation.h](TalosRecords/Source/TalosRecords/RecordingStation.h) ---
+>[RecordingStation.cpp](TalosRecords/Source/TalosRecords/RecordingStation.cpp)  
+>Recording Player moves. TODO rewrite
 
->Recording Player moves.  
->[IRecordable.cpp](TalosRecords/Source/TalosRecords/IRecordable.h)
+>[IRecordable.h](TalosRecords/Source/TalosRecords/IRecordable.h)   
+>Recording Player moves.
 
->Some data structures that are used to snapshot recordable objects.  
->[ItemSnapshot.h](TalosRecords/Source/TalosRecords/Item.h)  
->[PlayerCaharacterSnapshot.h](TalosRecords/Source/TalosRecords/Item.h)  
->[ItemPadSnapshot.h](TalosRecords/Source/TalosRecords/Item.h)
+>[ItemSnapshot.h](TalosRecords/Source/TalosRecords/ItemSnapshot.h)  
+>[PlayerCharacterSnapshot.h](TalosRecords/Source/TalosRecords/PlayerCharacterSnapshot.h)  
+>[ItemPadSnapshot.h](TalosRecords/Source/TalosRecords/ItemPadSnapshot.h)  
+>Some data structures that are used to snapshot recordable objects. TODO rewrite
 
 <br>
 
 ## Puzzle
->Script that references different components of a puzzle, tracking if objectives are completed.  
->[Puzzle.h](TalosRecords/Source/TalosRecords/Puzzle.h)  
->[Puzzle.cpp](TalosRecords/Source/TalosRecords/Puzzle.cpp)
+>[Puzzle.h](TalosRecords/Source/TalosRecords/Puzzle.h) ---
+>[Puzzle.cpp](TalosRecords/Source/TalosRecords/Puzzle.cpp)  
+>Script that references different components of a puzzle, tracking if objectives are completed.  TODO rewrite
 
->Gates that are opened on objectives completed.  
->[PuzzleGate.h](TalosRecords/Source/TalosRecords/PuzzleGate.h)  
->[PuzzleGate.cpp](TalosRecords/Source/TalosRecords/PuzzleGate.cpp)
+>[PuzzleGate.h](TalosRecords/Source/TalosRecords/PuzzleGate.h) ---
+>[PuzzleGate.cpp](TalosRecords/Source/TalosRecords/PuzzleGate.cpp)  
+>Gates that are opened on objectives completed.  TODO rewrite
 
->An interface that implements objective related methods..  
 >[IObjective.h](TalosRecords/Source/TalosRecords/IObjective.h)  
+>An interface that implements objective related methods..  TODO rewrite
 
 <br>
 
 ## Game Objects & Player
->Base class of an item that player can interact with and place into the world.  
->[Item.h](TalosRecords/Source/TalosRecords/Item.h)  
->[Item.cpp](TalosRecords/Source/TalosRecords/Item.cpp)
+>[Item.h](TalosRecords/Source/TalosRecords/Item.h) ---
+>[Item.cpp](TalosRecords/Source/TalosRecords/Item.cpp)  
+>Base class of an item that player can interact with and place into the world.  TODO rewrite
 
->Interactable object on which items can be placed, or taken from.  
->[ItemPad.h](TalosRecords/Source/TalosRecords/ItemPad.h)  
->[ItemPad.cpp](TalosRecords/Source/TalosRecords/Item.cpp)
 
->Computer from which you access terminal.  
->[Terminal.h](TalosRecords/Source/TalosRecords/Terminal.h)  
->[Terminal.cpp](TalosRecords/Source/TalosRecords/Terminal.cpp)
+>[ItemPad.h](TalosRecords/Source/TalosRecords/ItemPad.h) --- 
+>[ItemPad.cpp](TalosRecords/Source/TalosRecords/Item.cpp)  
+>Interactable object on which items can be placed, or taken from.  TODO rewrite
 
->Player functionality.  
->[PlayerCharacter.h](TalosRecords/Source/TalosRecords/PlayerCharacter.h)  
->[PlayerCharacter.cpp](TalosRecords/Source/TalosRecords/PlayerCharacter.cpp)
+>[Terminal.h](TalosRecords/Source/TalosRecords/Terminal.h) ---
+>[Terminal.cpp](TalosRecords/Source/TalosRecords/Terminal.cpp)  
+>Computer from which you access terminal.  TODO rewrite
+
+>[PlayerCharacter.h](TalosRecords/Source/TalosRecords/PlayerCharacter.h) ---
+>[PlayerCharacter.cpp](TalosRecords/Source/TalosRecords/PlayerCharacter.cpp)  
+>Player functionality.  TODO rewrite
 
 <br>
 
