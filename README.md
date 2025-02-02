@@ -82,7 +82,7 @@ Unreal Engine: v5.5.1
 
 
 >[ItemPad.h](TalosRecords/Source/TalosRecords/ItemPad.h) --- 
->[ItemPad.cpp](TalosRecords/Source/TalosRecords/Item.cpp)  
+>[ItemPad.cpp](TalosRecords/Source/TalosRecords/ItemPad.cpp)  
 >An interactable and recordable object with a specific objective. It is triggered when the player steps on it or when an item is socketed.
 
 >[Terminal.h](TalosRecords/Source/TalosRecords/Terminal.h) ---
