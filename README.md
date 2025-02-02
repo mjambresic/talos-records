@@ -8,7 +8,7 @@
 
 
 <p align="center">
-    A small-scale prototype inspired by the 2014 game, The Talos Principle. It focuses on player interaction with the world and a recording mechanic, aiming to recapture the gameplay feel of the original game.
+    A small-scale prototype inspired by the 2014 game, The Talos Principle. It focuses on player interaction with the world and a recording mechanics, aiming to recapture the gameplay feel of the original game.
 </p>
 
 <br>
