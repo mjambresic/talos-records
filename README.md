@@ -78,7 +78,7 @@ Unreal Engine: v5.5.1
 ## Other Game Objects & Player
 >[Item.h](TalosRecords/Source/TalosRecords/Item.h) ---
 >[Item.cpp](TalosRecords/Source/TalosRecords/Item.cpp)  
->An interactable and recordable object that the player can pick up, interact with, and place in the world or in designated sockets.
+>An interactable and recordable object that player can pick up, interact with, and place in the world or in designated sockets.
 
 
 >[ItemPad.h](TalosRecords/Source/TalosRecords/ItemPad.h) --- 
