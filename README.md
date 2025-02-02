@@ -78,20 +78,20 @@ Unreal Engine: v5.5.1
 ## Other Game Objects & Player
 >[Item.h](TalosRecords/Source/TalosRecords/Item.h) ---
 >[Item.cpp](TalosRecords/Source/TalosRecords/Item.cpp)  
->Base class of an item that player can interact with and place into the world.  TODO rewrite
+>An interactable and recordable object that the player can pick up, interact with, and place in the world or in designated sockets.
 
 
 >[ItemPad.h](TalosRecords/Source/TalosRecords/ItemPad.h) --- 
 >[ItemPad.cpp](TalosRecords/Source/TalosRecords/Item.cpp)  
->Interactable object on which items can be placed, or taken from.  TODO rewrite
+>An interactable and recordable object with a specific objective. It is triggered when the player steps on it or when an item is socketed.
 
 >[Terminal.h](TalosRecords/Source/TalosRecords/Terminal.h) ---
 >[Terminal.cpp](TalosRecords/Source/TalosRecords/Terminal.cpp)  
->Computer from which you access terminal.  TODO rewrite
+>An interactable computer object that opens a terminal widget.
 
 >[PlayerCharacter.h](TalosRecords/Source/TalosRecords/PlayerCharacter.h) ---
 >[PlayerCharacter.cpp](TalosRecords/Source/TalosRecords/PlayerCharacter.cpp)  
->Player functionality.  TODO rewrite
+>An object that unifies player mechanics. In this prototype, it is primarily used as a recordable object for player snapshotting and resimulation.
 
 <br>
 
